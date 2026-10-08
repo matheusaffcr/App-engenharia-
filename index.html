@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Torque — o quiz de engenharia mecânica</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Condensed:wght@600;700;800&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#F7941D">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Torque">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<style>
+:root{
+  --bg:#F7941D; --surface:#FFFFFF; --surface-2:#FFF1DC; --ink:#0B3A57; --ink-soft:#164563;
+  --line:#EBC999; --accent:#FFD60A; --accent-edge:#0B3A57; --on-accent:#0B3A57;
+  --ok:#1E8A4C; --ok-bg:#DFF3E6; --bad:#C92D27; --bad-bg:#FDE1DE; --red:#E8433A;
+  --shadow:#D9780B; --gear:#0B3A57; --gear-hi:#14597F; --focus:#0B3A57;
+  --display:"Barlow Condensed","Arial Narrow",Arial,sans-serif;
+  --text:"Barlow",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  color-scheme:light;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+*,*::before,*::after{box-sizing:inherit}
+[hidden]{display:none!important}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{
+  margin:0; min-height:100vh; background-color:var(--bg); color:var(--ink);
+  font-family:var(--text); font-size:17px; line-height:1.45;
+}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+main{max-width:560px;margin:0 auto;padding:20px 18px 40px}
+
+/* Botões */
+.btn{
+  display:inline-block;border:2px solid var(--on-accent);background:var(--accent);color:var(--on-accent);
+  font-family:var(--display);font-weight:700;font-size:28px;letter-spacing:.01em;
+  padding:10px 34px 8px;border-radius:6px;box-shadow:0 5px 0 var(--accent-edge);
+  transition:transform .08s,box-shadow .08s;
+}
+.btn:active:not(:disabled){transform:translateY(4px);box-shadow:0 1px 0 var(--accent-edge)}
+.btn:disabled{opacity:.55;cursor:default}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--ink);box-shadow:none;font-size:22px;padding:8px 22px 6px}
+.btn.block{display:block;width:100%}
+
+/* Início */
+.home{text-align:left}
+.home .wheel-wrap{margin:8px auto 22px;width:min(70vw,300px)}
+.home .wheel{animation:idle 40s linear infinite}
+@keyframes idle{to{transform:rotate(360deg)}}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(68px,20vw,108px);line-height:.9;margin:0 0 10px;letter-spacing:-.01em;text-shadow:1px 1px 0 #D9780B, 2px 2px 0 #D9780B, 3px 3px 0 #D9780B, 4px 4px 0 #D9780B, 5px 5px 0 #D9780B, 6px 6px 0 #D9780B, 7px 7px 0 #D9780B, 8px 8px 0 #D9780B, 9px 9px 0 #D9780B, 10px 10px 0 #D9780B, 11px 11px 0 #D9780B, 12px 12px 0 #D9780B, 13px 13px 0 #D9780B, 14px 14px 0 #D9780B, 15px 15px 0 #D9780B, 16px 16px 0 #D9780B, 17px 17px 0 #D9780B, 18px 18px 0 #D9780B, 19px 19px 0 #D9780B, 20px 20px 0 #D9780B, 21px 21px 0 #D9780B, 22px 22px 0 #D9780B, 23px 23px 0 #D9780B, 24px 24px 0 #D9780B, 25px 25px 0 #D9780B, 26px 26px 0 #D9780B, 27px 27px 0 #D9780B, 28px 28px 0 #D9780B, 29px 29px 0 #D9780B, 30px 30px 0 #D9780B, 31px 31px 0 #D9780B, 32px 32px 0 #D9780B, 33px 33px 0 #D9780B, 34px 34px 0 #D9780B, 35px 35px 0 #D9780B, 36px 36px 0 #D9780B, 37px 37px 0 #D9780B, 38px 38px 0 #D9780B, 39px 39px 0 #D9780B, 40px 40px 0 #D9780B, 41px 41px 0 #D9780B, 42px 42px 0 #D9780B, 43px 43px 0 #D9780B, 44px 44px 0 #D9780B, 45px 45px 0 #D9780B, 46px 46px 0 #D9780B, 47px 47px 0 #D9780B, 48px 48px 0 #D9780B, 49px 49px 0 #D9780B, 50px 50px 0 #D9780B, 51px 51px 0 #D9780B, 52px 52px 0 #D9780B, 53px 53px 0 #D9780B, 54px 54px 0 #D9780B, 55px 55px 0 #D9780B, 56px 56px 0 #D9780B}
+.tagline{font-size:20px;color:var(--ink-soft);margin:0 0 22px}
+.rules{margin:0 0 26px;padding:0;list-style:none;border-left:4px solid var(--ink);padding-left:14px}
+.rules li{margin:0 0 6px}
+.best{margin:18px 0 0;color:var(--ink-soft)}
+.best strong{color:var(--ink);font-family:var(--display);font-size:24px}
+
+.modes{border:0;margin:0 0 26px;padding:0;display:grid;gap:8px}
+.modes legend{font-family:var(--display);font-weight:700;font-size:22px;padding:0;margin-bottom:8px}
+.mode{position:relative;display:block;cursor:pointer}
+.mode input{position:absolute;opacity:0;inset:0;width:100%;height:100%;margin:0;cursor:pointer}
+.mode span{display:block;border:2px solid var(--ink);border-radius:6px;padding:10px 14px;background:rgba(255,255,255,.2)}
+.mode b{display:block;font-family:var(--display);font-weight:700;font-size:24px;line-height:1.1}
+.mode small{display:block;color:var(--ink-soft);font-size:15px}
+.mode input:checked+span{border-color:var(--ink);background:var(--surface);box-shadow:inset 8px 0 0 var(--accent)}
+.mode input:focus-visible+span{outline:3px solid var(--focus);outline-offset:2px}
+
+/* Roleta */
+.wheel-wrap{position:relative;width:min(76vw,310px);aspect-ratio:1;margin:0 auto;filter:drop-shadow(12px 12px 0 var(--shadow))}
+.wheel{width:100%;height:100%}
+.wheel svg{width:100%;height:100%;display:block;overflow:visible}
+.pointer{
+  position:absolute;top:-14px;left:50%;transform:translateX(-50%);width:0;height:0;z-index:2;
+  border-left:15px solid transparent;border-right:15px solid transparent;border-top:30px solid var(--red);
+  filter:drop-shadow(0 0 0 var(--ink)) drop-shadow(1px 2px 0 rgba(0,0,0,.45));
+}
+.sector.done path{opacity:.22}
+.sector.done text{opacity:.5}
+
+/* HUD */
+.hud{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
+.nuts{display:flex;gap:6px}
+.nut{width:24px;height:26px;background:var(--accent);clip-path:polygon(25% 4%,75% 4%,100% 50%,75% 96%,25% 96%,0 50%);position:relative}
+.nut::after{content:"";position:absolute;inset:7px 6px;border-radius:50%;background:var(--bg)}
+.nut.lost{background:var(--shadow)}
+.stat{font-family:var(--display);font-weight:700;font-size:22px;line-height:1;text-align:right}
+.stat small{display:block;font-family:var(--text);font-weight:500;font-size:13px;color:var(--ink-soft);margin-bottom:2px}
+.stats{display:flex;gap:20px}
+
+/* Peças */
+.tray{display:grid;grid-template-columns:repeat(9,1fr);gap:3px;margin-bottom:22px}
+.chip{display:grid;justify-items:center;gap:5px}
+.chip .ico{
+  width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-size:17px;
+  border:2px solid var(--shadow);background:var(--surface);filter:grayscale(1);opacity:.75;
+}
+.chip.earned .ico{background:var(--c);border-color:var(--c);filter:none;opacity:1}
+.dots{display:flex;gap:2px}
+.dots i{width:5px;height:5px;border-radius:50%;background:rgba(11,58,87,.25)}
+.dots i.on{background:var(--c)}
+
+/* Painel de giro */
+.spin-panel{text-align:center}
+.spin-panel .hint{color:var(--ink-soft);margin:24px 0 18px}
+
+/* Pergunta */
+.qcard{background:var(--surface);border:0;border-radius:8px;overflow:hidden;box-shadow:12px 12px 0 var(--shadow)}
+.band{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 16px;background:var(--c);color:var(--tc,#fff)}
+.band .name{font-family:var(--display);font-weight:700;font-size:26px;line-height:1;display:flex;align-items:center;gap:10px}
+.band .prog{font-family:var(--display);font-weight:600;font-size:20px}
+.timer{height:6px;background:var(--surface-2)}
+.timer b{display:block;height:100%;width:100%;background:var(--ink-soft);transition:width .1s linear}
+.timer.low b{background:var(--bad)}
+.qbody{padding:18px 16px 16px}
+.qtext{font-size:21px;font-weight:600;line-height:1.35;margin:0 0 16px}
+.tools{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;color:var(--ink-soft);font-size:15px}
+.tools button{background:transparent;border:2px solid var(--line);border-radius:6px;padding:4px 12px;font-weight:600;color:var(--ink)}
+.tools button:disabled{opacity:.45;cursor:default}
+.options{display:grid;gap:10px}
+.opt{
+  display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:12px 14px;
+  background:var(--surface-2);border:2px solid var(--line);border-radius:6px;line-height:1.3;
+  transition:border-color .12s,background .12s;
+}
+.opt:hover:not(:disabled){border-color:var(--ink)}
+.opt .k{
+  flex:none;width:28px;height:28px;display:grid;place-items:center;border-radius:4px;
+  background:var(--ink);color:#fff;font-family:var(--display);font-weight:700;font-size:18px;
+}
+.opt .t{flex:1}
+.opt .mark{flex:none;font-weight:700;font-size:20px}
+.opt:disabled{cursor:default}
+.opt.out{opacity:.3;text-decoration:line-through}
+.opt.correct{border-color:var(--ok);background:var(--ok-bg)}
+.opt.wrong{border-color:var(--bad);background:var(--bad-bg)}
+.opt.correct .mark{color:var(--ok)}
+.opt.wrong .mark{color:var(--bad)}
+.feedback{margin-top:16px;padding-top:14px;border-top:2px dashed var(--line)}
+.feedback h2{font-family:var(--display);font-weight:800;font-size:30px;line-height:1;margin:0 0 8px}
+.feedback h2.ok{color:var(--ok)} .feedback h2.bad{color:var(--bad)}
+.feedback p{margin:0 0 14px}
+.earned-banner{
+  display:flex;align-items:center;gap:10px;background:var(--accent);color:var(--on-accent);
+  padding:10px 12px;border-radius:6px;margin:0 0 14px;font-weight:600;
+}
+.earned-banner span{font-size:24px}
+
+/* Fim */
+.end h2{font-family:var(--display);font-weight:800;font-size:clamp(46px,13vw,68px);line-height:.95;margin:6px 0 10px}
+.end .lead{font-size:19px;color:var(--ink-soft);margin:0 0 22px}
+.summary{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:2px solid var(--ink);border-radius:6px;margin-bottom:22px;background:var(--surface);box-shadow:8px 8px 0 var(--shadow)}
+.summary div{padding:12px 10px;border-right:2px solid var(--ink)}
+.summary div:last-child{border-right:0}
+.summary b{display:block;font-family:var(--display);font-size:34px;line-height:1}
+.summary small{color:var(--ink-soft);font-size:14px}
+.end .tray{margin-bottom:26px}
+.end .actions{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+.newrec{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:600;padding:2px 10px;border-radius:4px;margin-bottom:10px}
+
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+@media (prefers-reduced-motion: reduce){
+  .home .wheel{animation:none}
+  .btn,.opt,.timer b{transition:none}
+}
+@media (max-width:380px){
+  .qtext{font-size:19px}
+  .chip .ico{width:29px;height:29px;font-size:14px}
+}
+</style>
+</head>
+<body>
+<main>
+
+<!-- INÍCIO -->
+<section id="home" class="home">
+  <div class="wheel-wrap" aria-hidden="true"><div class="wheel" id="homeWheel"></div></div>
+  <h1>Torque</h1>
+  <p class="tagline">O quiz de engenharia mecânica.</p>
+  <ul class="rules">
+    <li>Gire a engrenagem e responda à pergunta da área sorteada.</li>
+    <li>Acerte 3 perguntas de uma área para ganhar a peça dela.</li>
+    <li>Cada erro custa uma porca. Monte as 9 peças antes que elas acabem.</li>
+  </ul>
+  <fieldset class="modes">
+    <legend>Nível</legend>
+    <label class="mode"><input type="radio" name="mode" value="facil"><span><b>Calouro</b><small>Perguntas básicas, 40 s por pergunta, 4 porcas.</small></span></label>
+    <label class="mode"><input type="radio" name="mode" value="medio" checked><span><b>Veterano</b><small>Perguntas intermediárias, 30 s, 3 porcas, pontos ×1,5.</small></span></label>
+    <label class="mode"><input type="radio" name="mode" value="dificil"><span><b>Mestre</b><small>Perguntas difíceis, 25 s, 3 porcas, pontos ×2.</small></span></label>
+  </fieldset>
+  <button class="btn" id="playBtn">Jogar</button>
+  <p class="best" id="bestHome" hidden>Seu recorde no nível <span id="bestHomeM"></span>: <strong id="bestHomeN">0</strong> pontos</p>
+</section>
+
+<!-- JOGO -->
+<section id="game" hidden>
+  <div class="hud">
+    <div class="nuts" id="nuts" role="img" aria-label="3 chances restantes"></div>
+    <div class="stats">
+      <div class="stat"><small>Sequência</small><span id="streak">0</span></div>
+      <div class="stat"><small>Pontos</small><span id="score">0</span></div>
+    </div>
+  </div>
+  <div class="tray" id="tray" aria-label="Peças conquistadas"></div>
+
+  <div id="spinPanel" class="spin-panel">
+    <div class="wheel-wrap">
+      <div class="pointer" aria-hidden="true"></div>
+      <div class="wheel" id="wheelRot" aria-hidden="true"></div>
+    </div>
+    <p class="hint">Gire para sortear a área da próxima pergunta.</p>
+    <button class="btn" id="spinBtn">Girar</button>
+  </div>
+
+  <div id="qPanel" hidden>
+    <div class="qcard">
+      <div class="band" id="band"></div>
+      <div class="timer" id="timer"><b id="timerBar"></b></div>
+      <div class="qbody">
+        <p class="qtext" id="qtext"></p>
+        <div class="tools">
+          <span id="timeLeft">30 s</span>
+          <button id="hintBtn" type="button">Eliminar 2 (2)</button>
+        </div>
+        <div class="options" id="options"></div>
+        <div class="feedback" id="feedback" hidden></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FIM -->
+<section id="end" class="end" hidden>
+  <div id="newrec" class="newrec" hidden>Novo recorde!</div>
+  <h2 id="endTitle"></h2>
+  <p class="lead" id="endLead"></p>
+  <div class="summary">
+    <div><b id="eScore">0</b><small>pontos</small></div>
+    <div><b id="eAcc">0%</b><small>de acertos</small></div>
+    <div><b id="eStreak">0</b><small>maior sequência</small></div>
+  </div>
+  <div class="tray" id="endTray"></div>
+  <div class="actions">
+    <button class="btn" id="againBtn">Jogar de novo</button>
+    <button class="btn ghost" id="homeBtn">Início</button>
+  </div>
+</section>
+
+<div class="sr" id="live" aria-live="polite"></div>
+</main>
+
+<script>
+(function(){
+"use strict";
+
+/* ---------- Dados ---------- */
+var CATS=[
+  {id:"termo",nome:"Termodinâmica",icone:"🔥",cor:"#D63A32",peca:"Pistão"},
+  {id:"resmat",nome:"Resistência dos Materiais",icone:"🏗️",cor:"#1B6FBF",peca:"Viga"},
+  {id:"mat",nome:"Materiais",icone:"🧪",cor:"#3E8A2E",peca:"Liga"},
+  {id:"fluid",nome:"Mecânica dos Fluidos",icone:"💧",cor:"#0B8580",peca:"Turbina"},
+  {id:"elem",nome:"Elementos de Máquinas",icone:"⚙️",cor:"#F8D808",peca:"Engrenagem",tc:"#0B3A57"},
+  {id:"fab",nome:"Fabricação",icone:"🛠️",cor:"#6F4DB3",peca:"Torno"},
+  {id:"calor",nome:"Transferência de Calor",icone:"🌡️",cor:"#B02E7C",peca:"Aleta"},
+  {id:"vibr",nome:"Vibrações",icone:"📳",cor:"#08A8E8",peca:"Amortecedor",tc:"#0B3A57"},
+  {id:"ctrl",nome:"Controle",icone:"🎛️",cor:"#0B3A57",peca:"Controlador"}
+];
+
+/* Níveis de dificuldade: n = 1 (fácil), 2 (médio), 3 (difícil) em cada pergunta. */
+var MODES={
+  facil:{nome:"Calouro",lives:4,hints:3,time:40,mult:1,lvl:1},
+  medio:{nome:"Veterano",lives:3,hints:2,time:30,mult:1.5,lvl:2},
+  dificil:{nome:"Mestre",lives:3,hints:1,time:25,mult:2,lvl:3}
+};
+
+/* A primeira alternativa de cada pergunta é a correta; elas são embaralhadas ao jogar. */
+var Q={
+termo:[
+{q:"Qual enunciado expressa a Primeira Lei da Termodinâmica?",o:["A energia se conserva: só pode ser transformada ou transferida","A entropia de um sistema isolado nunca diminui","Corpos em equilíbrio com um terceiro estão em equilíbrio entre si","É impossível chegar ao zero absoluto em um número finito de etapas"],e:"É a conservação de energia aplicada a sistemas térmicos: ΔU = Q − W.",n:1},
+{q:"De que depende o rendimento máximo de uma máquina térmica que opera entre duas fontes?",o:["Apenas das temperaturas absolutas das fontes quente e fria","Do fluido de trabalho utilizado","Da pressão máxima do ciclo","Da potência da máquina"],e:"Rendimento de Carnot: η = 1 − Tf/Tq, com as temperaturas em kelvin.",n:2},
+{q:"Qual ciclo ideal melhor representa um motor a diesel?",o:["Ciclo Diesel","Ciclo Otto","Ciclo Rankine","Ciclo Brayton"],e:"No ciclo Diesel o ar é comprimido e o calor entra a pressão constante, sem centelha.",n:2},
+{q:"Qual ciclo é a base das usinas termelétricas a vapor?",o:["Rankine","Otto","Brayton","Stirling"],e:"O Rankine usa caldeira, turbina, condensador e bomba, com a água mudando de fase.",n:1},
+{q:"Qual é a unidade de entropia no Sistema Internacional?",o:["J/K","J/kg","W","K/J"],e:"Entropia é energia por temperatura: joule por kelvin.",n:3},
+{q:"O que ocorre em um processo adiabático?",o:["Não há troca de calor com o ambiente","A temperatura permanece constante","A pressão permanece constante","O volume permanece constante"],e:"Q = 0. Na compressão adiabática de um gás, a temperatura sobe.",n:1},
+{q:"Qual mecanismo de transferência de calor não precisa de meio material?",o:["Radiação","Condução","Convecção","Advecção"],e:"A radiação térmica se propaga por ondas eletromagnéticas, inclusive no vácuo. É assim que o Sol aquece a Terra.",n:2},
+{q:"O que a Lei Zero da Termodinâmica permite definir?",o:["Temperatura","Entropia","Energia interna","Trabalho"],e:"Se A e B estão em equilíbrio térmico com C, estão em equilíbrio entre si. É a base do termômetro.",n:2},
+{q:"Em um processo isobárico, qual grandeza permanece constante?",o:["A pressão","O volume","A temperatura","O calor trocado"],e:"Iso significa igual e baro significa pressão. O ciclo Diesel ideal tem uma etapa isobárica.",n:1},
+{q:"Quais são as quatro etapas de um ciclo de Carnot?",o:["Duas isotérmicas e duas adiabáticas reversíveis","Duas isobáricas e duas isocóricas","Duas isobáricas e duas adiabáticas","Duas isotérmicas e duas isocóricas"],e:"Expansão e compressão isotérmicas, intercaladas por expansão e compressão adiabáticas, todas reversíveis.",n:3},
+{q:"Um refrigerador ideal opera entre 250 K e 300 K. Qual é o seu coeficiente de desempenho máximo?",o:["5","6","0,2","1,2"],e:"COP = Tf/(Tq − Tf) = 250/50 = 5.",n:3},
+{q:"Para um gás ideal, qual relação vale entre os calores específicos molares cp e cv?",o:["cp − cv = R","cp + cv = R","cp·cv = R","cp/cv = R"],e:"É a relação de Mayer. A razão k = cp/cv vale cerca de 1,4 para o ar.",n:3},
+{q:"Qual enunciado da Segunda Lei da Termodinâmica é o de Clausius?",o:["O calor não flui espontaneamente de um corpo frio para um corpo quente","A energia nunca pode ser criada nem destruída","Todo processo real tem entropia constante","A temperatura de um gás é proporcional à sua pressão"],e:"Para transferir calor do frio para o quente é preciso fornecer trabalho, como faz um refrigerador.",n:1},
+{q:"Qual é a unidade de pressão no SI?",o:["Pascal (Pa)","Bar","Atmosfera (atm)","Libra por polegada quadrada (psi)"],e:"1 Pa = 1 N/m². Bar, atm e psi são usados na prática, mas não são unidades do SI.",n:1},
+{q:"A que temperatura corresponde o zero absoluto?",o:["0 K, ou −273,15 °C","0 °C","−100 °C","−459,67 K"],e:"É o limite inferior da escala de temperatura, em que o sistema tem a menor energia possível.",n:1},
+{q:"Quanto vale, aproximadamente, 25 °C na escala Kelvin?",o:["298 K","248 K","273 K","325 K"],e:"T(K) = T(°C) + 273,15.",n:1},
+{q:"Qual substância é muito usada como fluido de resfriamento por ter alto calor específico?",o:["Água","Ar","Mercúrio","Óleo de oliva"],e:"A água tem cerca de 4,18 kJ/(kg·K), o que permite absorver muito calor com pouca variação de temperatura.",n:1},
+{q:"A que temperatura a água ferve ao nível do mar?",o:["100 °C","90 °C","120 °C","212 °C"],e:"Com pressão menor, como em altitude, a temperatura de ebulição cai. 212 °F equivalem a 100 °C.",n:1},
+{q:"Em um processo isotérmico, qual grandeza permanece constante?",o:["A temperatura","A pressão","O volume","A entropia"],e:"Em um gás ideal, isso significa que a energia interna também não varia.",n:1},
+{q:"Em um processo isocórico, qual é o trabalho de expansão realizado pelo gás?",o:["Zero","Máximo","Igual ao calor trocado, com sinal contrário","Proporcional à pressão"],e:"Sem variação de volume não há trabalho de fronteira: W = 0.",n:1},
+{q:"Qual é a unidade de energia no SI?",o:["Joule (J)","Watt (W)","Caloria (cal)","Newton (N)"],e:"1 J = 1 N·m. O watt é joule por segundo, uma unidade de potência.",n:1},
+{q:"O que é calor latente?",o:["A energia trocada na mudança de fase, sem variação de temperatura","A energia que faz a temperatura subir","O calor perdido por atrito","O calor retido pelo isolamento"],e:"É o calor da fusão do gelo ou da vaporização da água: a temperatura fica constante enquanto houver duas fases.",n:1},
+{q:"Qual equipamento retira calor de um ambiente frio e o rejeita em um ambiente mais quente?",o:["Refrigerador","Turbina a vapor","Caldeira","Queimador"],e:"Ele precisa de trabalho, fornecido pelo compressor, para fazer o calor ir contra o fluxo natural.",n:1},
+{q:"O que faz uma máquina térmica?",o:["Converte parte do calor recebido em trabalho","Converte todo o calor recebido em trabalho","Converte trabalho em calor com rendimento maior que 100%","Cria energia a partir do nada"],e:"Pela Segunda Lei, sempre é preciso rejeitar parte do calor para uma fonte fria.",n:1},
+{q:"Como se chama a passagem direta do estado sólido para o gasoso?",o:["Sublimação","Fusão","Condensação","Solidificação"],e:"O gelo-seco (CO₂ sólido) sublima à pressão ambiente.",n:1},
+{q:"Qual destes materiais é um bom isolante térmico?",o:["Lã de vidro","Cobre","Alumínio","Aço"],e:"Os isolantes retêm ar parado em seus poros, e o ar tem baixíssima condutividade térmica.",n:1},
+{q:"No motor de combustão interna, qual peça transforma o movimento linear do pistão em rotação?",o:["Virabrequim","Comando de válvulas","Cárter","Radiador"],e:"A biela liga o pistão ao virabrequim, que entrega o torque ao veículo.",n:1},
+{q:"Qual é a equação de estado dos gases ideais?",o:["PV = nRT","P = ρ·g·h","PV^k = constante","Q = m·c·ΔT"],e:"Com P em pascal, V em m³, n em mol e T em kelvin, R = 8,314 J/(mol·K).",n:2},
+{q:"Como se define o rendimento térmico de uma máquina térmica?",o:["Trabalho líquido dividido pelo calor recebido","Calor rejeitado dividido pelo calor recebido","Calor recebido dividido pelo trabalho líquido","Trabalho líquido dividido pelo calor rejeitado"],e:"η = W/Qh = 1 − Qc/Qh. Nenhuma máquina real chega a 100%.",n:2},
+{q:"Qual ciclo é o modelo ideal das turbinas a gás e dos motores a jato?",o:["Brayton","Otto","Rankine","Diesel"],e:"Tem compressão, adição de calor a pressão constante, expansão na turbina e rejeição de calor.",n:2},
+{q:"No ciclo Otto ideal, aumentar a razão de compressão...",o:["aumenta o rendimento térmico","diminui o rendimento térmico","não altera o rendimento","só altera a potência, nunca o rendimento"],e:"Na prática, a razão de compressão é limitada pela detonação (batida de pino) nos motores a gasolina.",n:2},
+{q:"Como se define a entalpia (H)?",o:["H = U + P·V","H = U − T·S","H = Q − W","H = P·V − T·S"],e:"A entalpia é muito útil em processos a pressão constante e em escoamentos, pois agrupa energia interna e trabalho de escoamento.",n:2},
+{q:"Qual é o trabalho de fronteira em um processo isobárico?",o:["W = P·ΔV","W = n·R·T·ln(V2/V1)","W = ΔU","W = 0"],e:"Em um diagrama P-V, é a área sob uma reta horizontal.",n:2},
+{q:"O que é o título (x) do vapor úmido?",o:["A fração de massa que está na fase vapor","A fração de massa que está na fase líquida","A temperatura de saturação","A razão entre pressão e volume"],e:"x = 0 é líquido saturado e x = 1 é vapor saturado seco.",n:2},
+{q:"Em um diagrama T-s, a área sob a curva de um processo reversível representa...",o:["o calor trocado","o trabalho realizado","a variação de energia interna","a variação de entalpia"],e:"Como δQ = T·dS, integrar T·ds fornece o calor por unidade de massa.",n:2},
+{q:"Como se chama um processo adiabático e reversível?",o:["Isentrópico","Isotérmico","Isocórico","Isobárico"],e:"Sem troca de calor e sem irreversibilidades, a entropia permanece constante.",n:2},
+{q:"Qual processo ocorre em uma válvula de expansão ideal de um refrigerador?",o:["Isentálpico (entalpia constante)","Isentrópico","Isobárico","Isotérmico"],e:"Não há trabalho nem troca de calor significativos: a pressão cai e parte do líquido evapora, resfriando o fluido.",n:2},
+{q:"Para um gás ideal, de que depende a energia interna?",o:["Apenas da temperatura","Apenas da pressão","Apenas do volume","Da pressão e do volume, mas não da temperatura"],e:"Esse fato, conhecido como lei de Joule, dá ΔU = m·cv·ΔT para qualquer processo.",n:2},
+{q:"Qual é o ponto crítico da água?",o:["Cerca de 374 °C e 22 MPa, acima do qual não há distinção entre líquido e vapor","100 °C e 101 kPa, onde a água ferve","0,01 °C e 611 Pa, onde coexistem as três fases","Aproximadamente 4 °C, onde a densidade é máxima"],e:"Acima dele existe apenas um fluido supercrítico. Usinas supercríticas operam nessa região para ganhar rendimento.",n:2},
+{q:"Qual é a diferença entre uma bomba de calor e um refrigerador?",o:["O ciclo é o mesmo, mas o objetivo é aquecer o ambiente quente, não resfriar o frio","A bomba de calor não usa compressor","O refrigerador é uma máquina térmica e a bomba de calor não","A bomba de calor opera com rendimento menor que 100% e o refrigerador, maior"],e:"Os dois transferem calor do frio para o quente. Um ar-condicionado reversível funciona como bomba de calor no inverno.",n:2},
+{q:"Por que cp é maior que cv em um gás ideal?",o:["Porque, a pressão constante, parte do calor vira trabalho de expansão","Porque o gás perde massa ao ser aquecido","Porque o volume constante exige mais energia","Porque a temperatura cai durante o aquecimento"],e:"Em cp, além de elevar a temperatura, o calor também faz o gás empurrar a fronteira: cp − cv = R.",n:2},
+{q:"No ciclo Rankine, qual componente eleva a pressão do líquido?",o:["Bomba","Turbina","Condensador","Caldeira"],e:"Bombear líquido consome muito menos trabalho que comprimir vapor, uma das vantagens do ciclo.",n:2},
+{q:"Qual é a variação de entropia de um gás ideal em expansão isotérmica de V1 para V2?",o:["ΔS = n·R·ln(V2/V1)","ΔS = 0","ΔS = n·cv·ln(T2/T1)","ΔS = n·R·(V2 − V1)"],e:"A entropia aumenta com o volume disponível. Para dobrar o volume, ΔS = n·R·ln 2.",n:3},
+{q:"Qual é o rendimento ideal de um ciclo Otto com razão de compressão 8 e k = 1,4?",o:["Cerca de 56%","Cerca de 30%","Cerca de 75%","Cerca de 44%"],e:"η = 1 − 1/r^(k−1) = 1 − 8^(−0,4) ≈ 0,565. Motores reais ficam bem abaixo disso.",n:3},
+{q:"Qual é o trabalho de uma expansão isotérmica reversível de um gás ideal?",o:["W = n·R·T·ln(V2/V1)","W = P·(V2 − V1)","W = n·cv·(T1 − T2)","W = 0"],e:"Como ΔU = 0 na isoterma, todo o calor recebido se converte em trabalho.",n:3},
+{q:"Em uma expansão adiabática reversível de um gás ideal, qual relação se mantém constante?",o:["P·V^k","P·V","P/T","V/T"],e:"Aqui k = cp/cv. Combinada com PV = nRT, também vale T·V^(k−1) = constante.",n:3},
+{q:"O que afirma a desigualdade de Clausius para um ciclo?",o:["A integral cíclica de δQ/T é menor ou igual a zero","A integral cíclica de δQ é sempre positiva","A integral cíclica de δW é nula","A entropia de um ciclo sempre diminui"],e:"A igualdade vale para ciclos reversíveis, e o sinal de menor, para ciclos irreversíveis.",n:3},
+{q:"O que mede a eficiência isentrópica de uma turbina?",o:["A razão entre o trabalho real e o trabalho do processo isentrópico","A razão entre a vazão de vapor e a de líquido","A razão entre a pressão de saída e a de entrada","A razão entre a temperatura de saída e a de entrada"],e:"Valores típicos de turbinas a vapor ficam entre 80% e 90%. O atrito do escoamento gera entropia.",n:3},
+{q:"O que é exergia?",o:["O trabalho útil máximo obtido ao levar o sistema ao equilíbrio com o ambiente","A energia total armazenada em um sistema","O calor rejeitado ao ambiente","A entropia gerada em um processo irreversível"],e:"Diferentemente da energia, a exergia é destruída pelas irreversibilidades. Ela mede a qualidade da energia.",n:3},
+{q:"Qual é a relação fundamental T·dS para uma substância simples compressível?",o:["T·dS = dU + P·dV","T·dS = dH + P·dV","T·dS = dU − P·dV + dQ","T·dS = dW"],e:"É a primeira relação de Gibbs. Vale para qualquer processo, pois relaciona apenas propriedades.",n:3},
+{q:"Em um ciclo de Stirling ideal com regeneração perfeita, o rendimento é...",o:["igual ao rendimento de Carnot entre as mesmas temperaturas","metade do rendimento de Carnot","maior que o de Carnot","zero"],e:"Com duas isotermas e duas isocóricas, e todo o calor das isocóricas trocado no regenerador, η = 1 − Tf/Tq.",n:3},
+{q:"Qual é o efeito do superaquecimento do vapor na entrada da turbina de um ciclo Rankine?",o:["Aumenta o título na saída, reduzindo a umidade e a erosão das pás","Reduz a temperatura média de adição de calor","Diminui o trabalho específico da turbina","Aumenta a pressão do condensador"],e:"Gotículas de líquido nas últimas fileiras de pás causam erosão, e o superaquecimento mantém o vapor mais seco.",n:3},
+{q:"De que depende o rendimento do ciclo Brayton ideal?",o:["Da razão de pressões do compressor","Apenas da temperatura máxima","Da vazão de ar","Da potência da turbina"],e:"η = 1 − 1/rp^((k−1)/k). Por isso as turbinas a gás modernas têm razões de pressão altas.",n:3},
+{q:"O que ocorre com a temperatura de um gás ideal em um estrangulamento (efeito Joule-Thomson)?",o:["Não varia","Aumenta sempre","Diminui sempre","Depende apenas da pressão final"],e:"Em gases reais o coeficiente de Joule-Thomson pode ser positivo (resfria) ou negativo (aquece), mas é nulo no gás ideal.",n:3},
+{q:"Por que se reduz a pressão do condensador em uma usina a vapor?",o:["Para diminuir a temperatura de rejeição de calor e aumentar o rendimento","Para aumentar a temperatura do vapor na caldeira","Para reduzir o trabalho da turbina","Para evitar a ebulição na bomba"],e:"Quanto menor a pressão de saturação, menor a temperatura em que o calor é rejeitado. O limite é a temperatura do meio de resfriamento.",n:3},
+{q:"O que afirma a Terceira Lei da Termodinâmica?",o:["A entropia de um cristal perfeito é zero em 0 K","A entropia de um sistema isolado nunca diminui","A energia interna de um gás ideal só depende de T","O trabalho líquido de um ciclo é igual ao calor líquido"],e:"Ela fornece o ponto de referência para a entropia absoluta das substâncias.",n:3}
+],
+resmat:[
+{q:"A Lei de Hooke afirma que, no regime elástico, a tensão é...",o:["proporcional à deformação","inversamente proporcional à deformação","constante, independente da deformação","proporcional ao quadrado da deformação"],e:"σ = E·ε, em que E é o módulo de elasticidade do material.",n:1},
+{q:"Qual é a unidade do módulo de elasticidade (módulo de Young) no SI?",o:["Pascal (Pa)","Newton (N)","Joule (J)","Newton-metro (N·m)"],e:"É uma razão entre tensão e deformação. Como a deformação é adimensional, a unidade é a da tensão: Pa (N/m²).",n:1},
+{q:"O coeficiente de Poisson relaciona...",o:["a deformação transversal com a longitudinal","a tensão normal com a tensão de cisalhamento","o limite de escoamento com o de ruptura","a carga aplicada com o comprimento da barra"],e:"Ao esticar uma barra, ela afina. O coeficiente é a razão (em módulo) entre essas deformações, perto de 0,3 para aços.",n:2},
+{q:"Em uma viga em flexão simples, onde a tensão normal é nula?",o:["Na linha neutra","Na face superior","Na face inferior","No ponto de maior momento fletor"],e:"Na linha neutra não há alongamento nem encurtamento. As tensões máximas ficam nas fibras mais afastadas.",n:2},
+{q:"Como se chama a instabilidade de colunas esbeltas sob compressão?",o:["Flambagem","Fluência","Cavitação","Torção"],e:"A carga crítica de Euler é Pcr = π²EI/(Le)²: depende da rigidez e do comprimento efetivo da coluna.",n:1},
+{q:"Qual é o momento de inércia de uma seção retangular (base b e altura h) em relação ao eixo central horizontal?",o:["b·h³/12","b·h²/6","b·h/2","b³·h/12"],e:"I = bh³/12. Por isso, dobrar a altura de uma viga multiplica sua rigidez à flexão por 8.",n:3},
+{q:"Para que serve o Círculo de Mohr?",o:["Representar graficamente o estado de tensões em um ponto","Calcular o centro de massa de uma peça","Medir a dureza de um material","Dimensionar rolamentos"],e:"Com ele se obtêm as tensões principais e o cisalhamento máximo para qualquer orientação do plano.",n:2},
+{q:"Como se chama a falha sob carregamento cíclico, mesmo com tensões abaixo do limite de escoamento?",o:["Fadiga","Fluência","Flambagem","Escoamento"],e:"Trincas nascem e crescem a cada ciclo até a ruptura súbita. É uma das maiores causas de falhas em eixos e molas.",n:3},
+{q:"O fator de segurança é, em geral, a razão entre...",o:["a resistência do material e a tensão atuante","a tensão atuante e a resistência do material","a carga de serviço e o peso da peça","o módulo de Young e o coeficiente de Poisson"],e:"FS maior que 1 indica margem contra a falha. O valor escolhido depende das incertezas de carga e de material.",n:1},
+{q:"Qual é a tensão normal em uma barra de seção 100 mm² sob uma força axial de 20 kN?",o:["200 MPa","2 MPa","20 MPa","2.000 MPa"],e:"σ = F/A = 20.000 N / 100 mm² = 200 N/mm² = 200 MPa.",n:2},
+{q:"Em um eixo circular maciço sob torção, onde a tensão de cisalhamento é máxima?",o:["Na superfície externa","No centro","A meia distância do raio","É uniforme em toda a seção"],e:"τ = T·r/J cresce linearmente com o raio: é nula no centro e máxima na superfície.",n:3},
+{q:"Qual critério de escoamento para materiais dúcteis é baseado na energia de distorção?",o:["Von Mises","Rankine","Euler","Hertz"],e:"Von Mises compara a tensão equivalente com o limite de escoamento. Tresca, baseado no cisalhamento máximo, é mais conservador.",n:3},
+{q:"O que significa MPa?",o:["Megapascal, igual a 10⁶ Pa ou 1 N/mm²","Milipascal, igual a 10⁻³ Pa","Metro por pascal","Mega-newton por polegada"],e:"É a unidade mais usada em engenharia mecânica para tensões e módulos de elasticidade.",n:1},
+{q:"Como se calcula a tensão normal média em uma barra tracionada?",o:["Força axial dividida pela área da seção transversal","Força axial multiplicada pelo comprimento","Alongamento dividido pelo comprimento","Força dividida pelo perímetro da seção"],e:"σ = F/A. A força deve ser perpendicular à seção.",n:1},
+{q:"Qual esforço tende a alongar uma barra?",o:["Tração","Compressão","Torção","Flexão"],e:"Na compressão ocorre o contrário: a barra é encurtada.",n:1},
+{q:"O cisalhamento é causado por forças que atuam...",o:["paralelas à superfície do material","perpendiculares à superfície do material","apenas no centro da seção","somente em líquidos"],e:"Exemplos são o corte de uma chapa por uma tesoura e o esforço em um rebite.",n:1},
+{q:"Como se define a deformação específica (ε) em uma barra?",o:["Alongamento dividido pelo comprimento original","Força dividida pela área","Alongamento multiplicado pelo comprimento","Comprimento final dividido pela área"],e:"ε = ΔL/L0. É adimensional, e muitas vezes expressa em porcentagem ou em microdeformações.",n:1},
+{q:"O que é o limite de escoamento de um material?",o:["A tensão a partir da qual começa a deformação plástica","A tensão máxima suportada antes da ruptura","A tensão que causa fadiga","A tensão em que o material derrete"],e:"Abaixo dele a deformação é elástica, e a peça volta à forma original ao ser descarregada.",n:1},
+{q:"O que é o limite de resistência à tração?",o:["A maior tensão nominal atingida no ensaio de tração","A tensão em que o material começa a escoar","A tensão média de trabalho","A tensão residual após a ruptura"],e:"Depois desse ponto, a seção começa a se estrangular (estricção) até a ruptura.",n:1},
+{q:"Qual esforço interno é responsável pela curvatura de uma viga?",o:["Momento fletor","Esforço normal","Torque","Peso próprio apenas"],e:"O momento fletor é medido em N·m e gera tração de um lado da viga e compressão do outro.",n:1},
+{q:"O que é uma viga em balanço?",o:["Uma viga engastada em uma extremidade e livre na outra","Uma viga apoiada nas duas extremidades","Uma viga apoiada em três pontos","Uma viga suspensa por cabos"],e:"Exemplos são marquises, varandas e braços de guindaste.",n:1},
+{q:"Por que a viga em I é tão usada na construção?",o:["Concentra material longe da linha neutra, onde a flexão é mais eficaz","Tem a menor área possível","Não sofre cisalhamento","É sempre mais barata que uma barra maciça"],e:"As mesas resistem à flexão e a alma, ao cisalhamento, com pouco material.",n:1},
+{q:"Qual é a unidade do momento fletor no SI?",o:["Newton-metro (N·m)","Pascal (Pa)","Newton (N)","Joule por metro (J/m)"],e:"É força vezes distância. Tem a mesma dimensão do joule, mas representa um conceito diferente.",n:1},
+{q:"O que é torção?",o:["Esforço que tende a girar uma seção em relação a outra, por efeito de um torque","Esforço que tende a esticar a peça","Esforço que tende a comprimir a peça","Esforço que tende a dobrar a peça"],e:"Eixos de transmissão e chaves de fenda trabalham principalmente sob torção.",n:1},
+{q:"Qual propriedade mede a resistência de um material à deformação elástica?",o:["Rigidez (módulo de elasticidade)","Tenacidade","Ductilidade","Dureza"],e:"O aço (cerca de 200 GPa) é cerca de três vezes mais rígido que o alumínio (cerca de 70 GPa).",n:1},
+{q:"Qual destes materiais é considerado frágil?",o:["Vidro","Cobre","Aço de baixo carbono","Alumínio puro"],e:"Materiais frágeis rompem com pouca ou nenhuma deformação plástica.",n:1},
+{q:"Como se chama a ruptura de uma peça sem aviso, quase sem deformação plástica?",o:["Fratura frágil","Fluência","Encruamento","Estricção"],e:"É perigosa justamente por não dar sinais antes da falha.",n:1},
+{q:"Uma barra de aço (E = 200 GPa) de 2 m e seção de 100 mm² suporta 10 kN de tração. Qual é o alongamento?",o:["1 mm","0,1 mm","10 mm","0,01 mm"],e:"δ = F·L/(A·E) = 10.000·2/(100·10⁻⁶·200·10⁹) = 0,001 m = 1 mm.",n:2},
+{q:"Qual é o momento fletor máximo em uma viga biapoiada de comprimento L com carga concentrada P no centro?",o:["P·L/4","P·L/2","P·L/8","P·L"],e:"Ocorre sob a carga. As reações nos apoios são P/2 cada, então M = (P/2)·(L/2).",n:2},
+{q:"Qual é o momento fletor máximo em uma viga biapoiada com carga uniformemente distribuída q?",o:["q·L²/8","q·L²/2","q·L²/4","q·L/2"],e:"Ocorre no meio do vão. A reação em cada apoio é q·L/2.",n:2},
+{q:"Qual é o momento fletor máximo em uma viga em balanço de comprimento L com carga P na ponta?",o:["P·L, no engaste","P·L/2, no meio","P·L/4, na ponta","Zero, em qualquer ponto"],e:"O momento cresce linearmente da ponta, onde vale zero, até o engaste.",n:2},
+{q:"Qual é a fórmula da tensão normal por flexão?",o:["σ = M·y/I","σ = M/(y·I)","σ = F/A","σ = T·r/J"],e:"y é a distância à linha neutra e I, o momento de inércia da seção. A tensão máxima ocorre nas fibras externas.",n:2},
+{q:"O que é o módulo de resistência à flexão (W) de uma seção?",o:["W = I/c, em que c é a distância da linha neutra à fibra mais afastada","W = I·c","W = A/I","W = c/I"],e:"Com W, a tensão máxima fica simplesmente σmax = M/W.",n:2},
+{q:"Qual é o esforço cortante máximo em uma viga biapoiada com carga P no centro?",o:["P/2","P","P/4","P·L/4"],e:"O cortante é igual à reação do apoio, e muda de sinal sob a carga.",n:2},
+{q:"O que é concentração de tensões?",o:["Aumento local da tensão perto de furos, entalhes e mudanças bruscas de seção","Distribuição uniforme da tensão pela seção","Redução da tensão perto das bordas","Tensão máxima no centro de uma barra lisa"],e:"Um furo circular em uma placa tracionada causa tensão local cerca de 3 vezes a nominal, o que favorece o início de trincas.",n:2},
+{q:"Qual é a relação entre os módulos E e G e o coeficiente de Poisson ν?",o:["G = E / [2(1 + ν)]","G = E·(1 + ν)","G = E / ν","G = 2E·ν"],e:"Para aço, com ν ≈ 0,3, G ≈ 77 GPa, ou cerca de 0,38·E.",n:2},
+{q:"Qual é a fórmula do ângulo de torção de um eixo?",o:["θ = T·L/(G·J)","θ = T·J/(G·L)","θ = G·L/(T·J)","θ = T·L/(E·I)"],e:"J é o momento polar de inércia. Quanto maior G·J, mais rígido é o eixo à torção.",n:2},
+{q:"Qual é o momento polar de inércia (J) de um eixo circular maciço de diâmetro d?",o:["π·d⁴/32","π·d³/16","π·d²/4","π·d⁴/64"],e:"π·d⁴/64 é o momento de inércia I à flexão. O J é o dobro dele.",n:2},
+{q:"Em um cilindro de parede fina pressurizado, qual tensão é maior?",o:["A tensão circunferencial, p·r/t","A tensão longitudinal, p·r/(2t)","As duas são iguais","Depende apenas do comprimento"],e:"A tensão circunferencial é o dobro da longitudinal. Por isso salsichas e tubos racham ao longo do comprimento.",n:2},
+{q:"Uma barra de aço presa entre dois apoios rígidos é aquecida. Qual é a tensão gerada?",o:["σ = E·α·ΔT, de compressão","σ = α·ΔT, de tração","Nenhuma, pois a barra se dilata livremente","σ = E/(α·ΔT), de tração"],e:"Como a dilatação é impedida, surge compressão. Juntas de dilatação existem para evitar isso em pontes e trilhos.",n:2},
+{q:"O que é o encruamento?",o:["Aumento da resistência e da dureza por deformação plástica a frio","Perda de resistência por aquecimento","Formação de trincas por fadiga","Aumento da ductilidade por deformação"],e:"Ele aumenta o limite de escoamento, mas reduz a ductilidade. O recozimento reverte o efeito.",n:2},
+{q:"O que é o módulo de resiliência?",o:["A energia elástica por unidade de volume absorvida até o escoamento","A energia total absorvida até a ruptura","A rigidez do material","A tensão máxima de fadiga"],e:"É a área sob a curva tensão-deformação até o limite elástico. Molas pedem materiais de alta resiliência.",n:2},
+{q:"Qual é a carga crítica de Euler de uma coluna biarticulada de comprimento L?",o:["Pcr = π²·E·I/L²","Pcr = π·E·I/L","Pcr = E·A/L","Pcr = π²·E·A/L²"],e:"Dobrar o comprimento reduz a carga crítica a um quarto. A flambagem ocorre no plano de menor momento de inércia.",n:3},
+{q:"O que é o índice de esbeltez de uma coluna?",o:["O comprimento efetivo dividido pelo raio de giração","A área dividida pelo comprimento","A carga dividida pela tensão","O momento de inércia dividido pela área"],e:"Colunas esbeltas (λ alto) flambam antes de escoar, e colunas curtas rompem por esmagamento.",n:3},
+{q:"Qual é o comprimento efetivo de uma coluna engastada em uma extremidade e livre na outra?",o:["2L","L","0,7L","0,5L"],e:"Ela flamba como metade de uma coluna biarticulada de comprimento 2L, por isso é a condição de apoio mais desfavorável.",n:3},
+{q:"Qual é o critério de Tresca para o escoamento?",o:["Cisalhamento máximo: τmax = (σ1 − σ3)/2 igual a Sy/2","Energia de distorção máxima","Tensão normal máxima igual a Sy","Deformação máxima igual a Sy/E"],e:"É mais conservador que von Mises, e a diferença chega a cerca de 15% em cisalhamento puro.",n:3},
+{q:"Qual é a equação diferencial da linha elástica de uma viga?",o:["E·I·d²y/dx² = M(x)","E·I·dy/dx = V(x)","E·A·d²y/dx² = M(x)","G·J·d²y/dx² = T(x)"],e:"Integrando duas vezes e aplicando as condições de contorno, obtêm-se a inclinação e a flecha.",n:3},
+{q:"Qual é a flecha máxima de uma viga biapoiada com carga P no centro?",o:["P·L³/(48·E·I)","P·L³/(3·E·I)","5·P·L³/(384·E·I)","P·L²/(8·E·I)"],e:"A segunda opção é a de uma viga em balanço com carga na ponta e a terceira, a de uma biapoiada com carga distribuída.",n:3},
+{q:"Qual é a flecha na ponta de uma viga em balanço com carga P na extremidade livre?",o:["P·L³/(3·E·I)","P·L³/(48·E·I)","P·L²/(2·E·I)","P·L/(E·A)"],e:"A flecha cresce com o cubo do comprimento. Dobrar o balanço multiplica a flecha por 8.",n:3},
+{q:"Como se calculam as tensões principais em estado plano de tensões?",o:["σ1,2 = (σx + σy)/2 ± √[((σx − σy)/2)² + τxy²]","σ1,2 = σx ± σy","σ1,2 = √(σx² + σy²)","σ1,2 = (σx − σy)/2 ± τxy"],e:"São os valores extremos da tensão normal, em planos onde o cisalhamento é nulo.",n:3},
+{q:"Qual é o limite de fadiga aproximado de um aço, em relação ao seu limite de resistência Sut?",o:["Cerca de 0,5·Sut","Cerca de 1,5·Sut","Cerca de 0,1·Sut","Igual ao Sut"],e:"É uma estimativa para corpo de prova polido. Acabamento, tamanho, carregamento e confiabilidade o reduzem por fatores de Marin.",n:3},
+{q:"Qual é a expressão do fator de intensidade de tensões KI em mecânica da fratura?",o:["KI = Y·σ·√(π·a)","KI = σ/√a","KI = E·σ·a","KI = σ·a²"],e:"O termo a é o tamanho da trinca. A fratura ocorre quando KI atinge a tenacidade à fratura KIc do material.",n:3},
+{q:"O que afirma o teorema de Castigliano?",o:["A derivada parcial da energia de deformação em relação a uma carga é o deslocamento no ponto e na direção dessa carga","A energia de deformação é sempre igual ao trabalho do peso próprio","O deslocamento é proporcional ao quadrado da carga","A flecha de uma viga independe do material"],e:"É uma ferramenta poderosa para calcular deslocamentos em estruturas e vigas curvas.",n:3},
+{q:"Em uma viga de seção retangular sob cortante V, qual é a tensão de cisalhamento máxima?",o:["1,5·V/A, na linha neutra","V/A, uniforme na seção","2·V/A, na face superior","0,5·V/A, na linha neutra"],e:"A distribuição é parabólica: nula nas fibras extremas e máxima no eixo neutro, 50% maior que a média.",n:3},
+{q:"Qual é a tensão em uma esfera de parede fina com pressão interna p, raio r e espessura t?",o:["σ = p·r/(2·t)","σ = p·r/t","σ = p·r²/t","σ = 2·p·r/t"],e:"A esfera tem a mesma tensão em todas as direções, igual à longitudinal do cilindro de mesmo raio.",n:3},
+{q:"Por que um tubo de seção fechada é muito mais rígido à torção do que um perfil aberto de parede fina de mesma espessura?",o:["Porque o fluxo de cisalhamento circula pela seção fechada, o que não ocorre no perfil aberto","Porque o tubo tem menor área","Porque o perfil aberto tem maior momento polar","Porque o tubo não sofre empenamento algum"],e:"Em perfis abertos de parede fina, a rigidez à torção varia com o cubo da espessura, e em seções fechadas, com a área envolvida.",n:3}
+],
+mat:[
+{q:"O aço é uma liga de ferro com, no máximo, cerca de quanto de carbono?",o:["2%","0,02%","10%","25%"],e:"Acima de aproximadamente 2,1% de carbono, a liga passa a ser chamada de ferro fundido.",n:1},
+{q:"O latão é uma liga de cobre com qual elemento?",o:["Zinco","Estanho","Níquel","Alumínio"],e:"Latão é cobre e zinco. O bronze é cobre e estanho.",n:1},
+{q:"Qual tratamento térmico resfria o aço rapidamente para aumentar sua dureza?",o:["Têmpera","Recozimento","Normalização","Revenimento"],e:"A têmpera forma martensita, uma estrutura muito dura e frágil.",n:1},
+{q:"Para que serve o revenimento feito após a têmpera?",o:["Aliviar tensões e reduzir a fragilidade","Aumentar ainda mais a dureza","Fundir o aço novamente","Aumentar o teor de carbono"],e:"A peça é reaquecida a uma temperatura moderada, trocando um pouco de dureza por tenacidade.",n:2},
+{q:"Qual é o teor mínimo aproximado de cromo para um aço ser considerado inoxidável?",o:["10,5%","1%","25%","50%"],e:"O cromo forma uma película fina de óxido que protege o aço contra a corrosão.",n:2},
+{q:"Qual ensaio mede a energia absorvida por um material ao ser rompido por impacto?",o:["Charpy","Brinell","Tração","Jominy"],e:"O Charpy usa um martelo-pêndulo e avalia a tenacidade, importante em baixas temperaturas.",n:2},
+{q:"Qual microconstituinte é típico de um aço temperado, duro e frágil?",o:["Martensita","Ferrita","Perlita","Austenita"],e:"A martensita se forma quando o resfriamento é rápido o bastante para impedir a difusão do carbono.",n:3},
+{q:"Qual é a densidade aproximada do alumínio?",o:["2,7 g/cm³","7,8 g/cm³","8,9 g/cm³","11,3 g/cm³"],e:"É cerca de um terço da densidade do aço (7,8 g/cm³), o que explica o uso em aeronáutica e na indústria automotiva.",n:3},
+{q:"Qual propriedade indica a capacidade de um material de se deformar plasticamente e ser transformado em fios?",o:["Ductilidade","Dureza","Resiliência","Fragilidade"],e:"Cobre e ouro são muito dúcteis. O vidro e o ferro fundido cinzento são frágeis.",n:1},
+{q:"Qual é a estrutura cristalina do ferro à temperatura ambiente (ferrita)?",o:["Cúbica de corpo centrado (CCC)","Cúbica de faces centradas (CFC)","Hexagonal compacta (HC)","Tetragonal"],e:"Acima de cerca de 912 °C o ferro passa a CFC, formando a austenita.",n:2},
+{q:"O que representa o ponto eutetoide no diagrama Fe-C?",o:["A transformação da austenita em perlita, a cerca de 0,77% C e 727 °C","A fusão completa do ferro fundido a 1.538 °C","A formação de martensita no resfriamento rápido","O limite de solubilidade do carbono na ferrita"],e:"No aço eutetoide toda a austenita se transforma em perlita (ferrita e cementita).",n:3},
+{q:"Como se chama a deformação lenta e progressiva sob tensão constante, relevante em altas temperaturas, como em palhetas de turbina?",o:["Fluência","Fadiga","Encruamento","Resiliência"],e:"A fluência (creep) é crítica em turbinas e caldeiras. Ligas à base de níquel foram desenvolvidas para resistir a ela.",n:3},
+{q:"O bronze é uma liga de cobre com qual elemento principal?",o:["Estanho","Zinco","Níquel","Chumbo"],e:"Bronze é cobre e estanho. O latão, cobre e zinco.",n:1},
+{q:"Qual é o principal elemento do aço?",o:["Ferro","Alumínio","Cobre","Níquel"],e:"O aço é ferro com carbono e, às vezes, outros elementos de liga, como cromo, níquel e manganês.",n:1},
+{q:"Qual metal é muito usado em fios elétricos por sua alta condutividade?",o:["Cobre","Chumbo","Titânio","Aço carbono"],e:"Depois da prata, o cobre é o metal com melhor condutividade elétrica entre os comuns.",n:1},
+{q:"O que é corrosão?",o:["Deterioração de um material por reação com o meio","Aumento de resistência por tratamento térmico","Deformação lenta sob carga","Fusão do material"],e:"A ferrugem é a corrosão do ferro, formando óxidos de ferro hidratados.",n:1},
+{q:"Qual é a característica dos polímeros termoplásticos?",o:["Amolecem com o calor e podem ser reprocessados","Não amolecem com o calor","São sempre frágeis","Conduzem muito bem a eletricidade"],e:"O polietileno e o PVC são exemplos. Os termofixos, como a baquelite, não podem ser refundidos.",n:1},
+{q:"Qual é a principal característica das cerâmicas técnicas?",o:["Alta dureza e resistência a altas temperaturas, mas fragilidade","Alta ductilidade","Baixo ponto de fusão","Alta condutividade elétrica"],e:"Por isso são usadas em ferramentas de corte, isolantes elétricos e revestimentos de fornos.",n:1},
+{q:"O que é um material compósito?",o:["Um material formado pela combinação de dois ou mais materiais com propriedades complementares","Uma liga de dois metais fundidos","Um polímero reciclado","Um metal puro tratado termicamente"],e:"Exemplo: fibra de carbono em resina epóxi, com alta resistência e baixo peso.",n:1},
+{q:"O que é dureza?",o:["A resistência de um material à penetração ou ao risco","A capacidade de absorver impacto","A resistência à tração","A capacidade de ser dobrado"],e:"Pode ser medida por ensaios como Brinell, Rockwell e Vickers.",n:1},
+{q:"O que é elasticidade?",o:["A capacidade de o material voltar à forma original ao cessar a carga","A capacidade de se deformar sem romper","A resistência ao risco","A capacidade de conduzir calor"],e:"Vale para a região linear da curva tensão-deformação, antes do escoamento.",n:1},
+{q:"Qual metal é líquido à temperatura ambiente?",o:["Mercúrio","Chumbo","Estanho","Zinco"],e:"O mercúrio funde a cerca de −39 °C. Por sua toxicidade, vem sendo substituído em termômetros.",n:1},
+{q:"Por que as ligas de alumínio são tão usadas em aeronaves?",o:["Têm baixa densidade e boa resistência","Têm a maior densidade entre os metais","São os metais mais duros","Não sofrem corrosão alguma"],e:"A relação resistência/peso é decisiva na aviação.",n:1},
+{q:"Qual metal é conhecido pela alta resistência específica e pela excelente resistência à corrosão, usado em próteses e aeronaves?",o:["Titânio","Chumbo","Ferro fundido","Zinco"],e:"É mais caro e mais difícil de usinar que o aço, mas é leve e biocompatível.",n:1},
+{q:"O que é a galvanização?",o:["Revestimento de aço com zinco para protegê-lo da corrosão","Têmpera do aço em água","Soldagem de chapas de aço","Fundição em molde de areia"],e:"O zinco funciona como camada de sacrifício: corrói antes do aço.",n:1},
+{q:"Qual destes materiais é um polímero?",o:["Nylon","Latão","Alumina","Aço inoxidável"],e:"O nylon é uma poliamida, muito usada em engrenagens leves e buchas.",n:1},
+{q:"O que é a maleabilidade de um metal?",o:["A capacidade de ser transformado em lâminas por compressão","A capacidade de ser transformado em fios","A resistência ao impacto","A resistência à corrosão"],e:"O ouro e o alumínio são muito maleáveis. A capacidade de formar fios é a ductilidade.",n:1},
+{q:"No ensaio Rockwell, o valor de dureza é obtido a partir de...",o:["A profundidade de penetração do identador","O diâmetro da impressão deixada pela esfera","A diagonal da pirâmide de diamante","A altura de ricochete de uma esfera"],e:"A leitura é direta na máquina. Brinell mede o diâmetro da calota, e Vickers, as diagonais da pirâmide.",n:2},
+{q:"Qual identador é usado no ensaio de dureza Vickers?",o:["Pirâmide de diamante de base quadrada","Esfera de aço temperado","Cone de diamante","Agulha de tungstênio"],e:"O ensaio Vickers serve para materiais moles e duros e também para camadas finas (microdureza).",n:2},
+{q:"Qual é o objetivo do recozimento do aço?",o:["Amolecer, aliviar tensões e melhorar a usinabilidade, com resfriamento lento","Endurecer o aço por resfriamento rápido","Aumentar o teor de carbono na superfície","Revestir o aço com zinco"],e:"O resfriamento costuma ser feito dentro do forno, o que gera uma estrutura grosseira e macia.",n:2},
+{q:"Qual é a diferença básica entre normalização e recozimento?",o:["Na normalização o resfriamento é ao ar, mais rápido, gerando grão mais fino e maior dureza","Na normalização o aço é resfriado em óleo","Na normalização o aço não é aquecido","Na normalização o carbono é removido"],e:"A normalização refina o grão e uniformiza a estrutura, sendo comum após forjamento ou fundição.",n:2},
+{q:"O que é a cementação?",o:["Enriquecimento da superfície do aço com carbono para obter superfície dura e núcleo tenaz","Remoção de carbono do aço","Revestimento do aço com cromo","Fusão do aço em atmosfera inerte"],e:"É feita em aços de baixo carbono, seguida de têmpera. Muito usada em engrenagens e eixos de comando.",n:2},
+{q:"Na nitretação, qual elemento é difundido na superfície do aço?",o:["Nitrogênio","Níquel","Neônio","Nióbio"],e:"Forma nitretos muito duros a temperaturas mais baixas que a cementação, com pouca distorção.",n:2},
+{q:"Qual é uma característica típica dos aços de baixo carbono (menos de 0,3% C)?",o:["Boa soldabilidade e ductilidade, mas baixa dureza","Dureza muito alta e baixa ductilidade","Excelente temperabilidade","Altíssima resistência ao desgaste"],e:"São os aços mais usados em estruturas e chapas, como o SAE 1020.",n:2},
+{q:"Qual é a característica do ferro fundido cinzento?",o:["Grafita em lamelas, boa usinabilidade e amortecimento de vibrações, mas frágil","Grafita em esferas, alta ductilidade","Ausência de carbono livre","Alta resistência à tração e alta ductilidade"],e:"É muito usado em blocos de motor e bases de máquinas por amortecer vibrações.",n:2},
+{q:"O que diferencia o ferro fundido nodular do cinzento?",o:["A grafita em forma esferoidal, que aumenta a ductilidade e a resistência","A ausência de silício","O menor teor de carbono","A cor da fratura"],e:"O nódulo de grafita não concentra tensões como a lamela, então o material é bem mais tenaz.",n:2},
+{q:"Quais elementos de liga são característicos do aço rápido (HSS) para ferramentas de corte?",o:["Tungstênio e molibdênio","Chumbo e estanho","Cobre e zinco","Magnésio e lítio"],e:"Eles formam carbonetos duros que mantêm a dureza em temperaturas altas de corte.",n:2},
+{q:"O que é corrosão galvânica?",o:["Corrosão acelerada do metal mais anódico quando dois metais diferentes se unem em presença de um eletrólito","Corrosão causada pelo calor","Corrosão causada por fadiga","Corrosão por abrasão"],e:"Evita-se isolando eletricamente os metais ou usando metais próximos na série galvânica.",n:2},
+{q:"Em que consiste a anodização do alumínio?",o:["Crescimento controlado de uma camada de óxido na superfície, por processo eletrolítico","Revestimento com tinta epóxi","Aquecimento em forno com nitrogênio","Soldagem de uma camada de aço"],e:"Aumenta a resistência à corrosão e ao desgaste e permite colorir a peça.",n:2},
+{q:"O que afirma a relação de Hall-Petch?",o:["Grãos menores aumentam o limite de escoamento do metal","Grãos maiores aumentam a resistência","O tamanho de grão não afeta a resistência","A resistência depende apenas da composição"],e:"Mais contornos de grão dificultam o movimento das discordâncias.",n:2},
+{q:"O que é a recristalização?",o:["Formação de novos grãos livres de deformação ao aquecer um metal encruado","Endurecimento por deformação a frio","Fusão parcial do metal","Precipitação de carbonetos"],e:"Ela amolece o metal e devolve a ductilidade perdida no encruamento.",n:2},
+{q:"Por que o carbono torna o aço mais duro?",o:["Porque forma carbonetos e estruturas como a martensita, que dificultam o movimento das discordâncias","Porque reduz a densidade do ferro","Porque aumenta a condutividade elétrica","Porque derrete a estrutura cristalina"],e:"Mas o aumento de carbono reduz a ductilidade e a soldabilidade.",n:2},
+{q:"O que é a temperatura de transição dúctil-frágil?",o:["A temperatura abaixo da qual certos aços passam a romper de forma frágil","A temperatura em que o aço funde","A temperatura de recozimento","A temperatura de início da têmpera"],e:"Foi a causa de falhas em navios Liberty na Segunda Guerra. Aços de estrutura CCC são suscetíveis; materiais CFC, como alumínio e cobre, não.",n:3},
+{q:"Qual é a expressão de Hall-Petch para o limite de escoamento?",o:["σy = σ0 + k·d^(−1/2)","σy = σ0 + k·d²","σy = σ0·e^(−k·d)","σy = k/d²"],e:"O termo d é o diâmetro médio de grão: quanto menor o grão, maior o limite de escoamento.",n:3},
+{q:"O que mede o ensaio Jominy?",o:["A temperabilidade do aço","A resistência ao impacto","A resistência à fadiga","A resistência à fluência"],e:"Uma barra aquecida é resfriada por um jato de água em uma só extremidade, e mede-se a dureza ao longo do comprimento.",n:3},
+{q:"O que representa uma curva TTT (tempo-temperatura-transformação)?",o:["O tempo necessário para a transformação isotérmica da austenita em outras fases","A variação de dureza com o tempo","A resistência à tração em função da temperatura","A taxa de corrosão em função do tempo"],e:"Permite prever perlita, bainita e martensita conforme a taxa de resfriamento.",n:3},
+{q:"Qual estrutura é obtida pela austêmpera do aço?",o:["Bainita","Martensita revenida","Perlita grosseira","Ferrita pura"],e:"A bainita combina boa dureza e tenacidade, com menos risco de trincas e distorção que a têmpera comum.",n:3},
+{q:"O que é a sensitização de um aço inoxidável austenítico?",o:["A precipitação de carbonetos de cromo nos contornos de grão, que causa corrosão intergranular","O aumento do teor de níquel","A formação de martensita","O revestimento com zinco"],e:"Ocorre quando o aço permanece entre cerca de 450 e 850 °C, como na zona afetada pelo calor da solda. Aços de baixo carbono (304L) ou estabilizados evitam o problema.",n:3},
+{q:"Qual elemento do aço inoxidável 316 o torna mais resistente à corrosão por cloretos do que o 304?",o:["Molibdênio","Tungstênio","Chumbo","Enxofre"],e:"O 316 é muito usado em ambientes marinhos e na indústria química.",n:3},
+{q:"Para que serve o conceito de carbono equivalente na soldagem?",o:["Estimar a suscetibilidade do aço a trincas a frio e a necessidade de pré-aquecimento","Calcular a densidade do aço","Medir a condutividade do metal de adição","Determinar a cor da solda"],e:"Quanto maior o carbono equivalente, maior a dureza possível na ZTA e maior o risco de trincas.",n:3},
+{q:"O que é a fragilização por hidrogênio?",o:["A perda de ductilidade e a trinca de aços de alta resistência pela absorção de hidrogênio atômico","A oxidação do ferro em contato com o ar","A perda de hidrogênio do aço em altas temperaturas","A formação de grafita nodular"],e:"É um risco em aços de alta resistência após decapagem, eletrodeposição ou soldagem úmida.",n:3},
+{q:"Por que se usam superligas à base de níquel em palhetas de turbinas a gás?",o:["Mantêm resistência mecânica e resistência à oxidação em temperaturas muito altas","São as mais leves entre os metais","Têm a menor condutividade térmica de todos os materiais","Não sofrem nenhuma deformação plástica"],e:"Palhetas monocristalinas, refrigeração interna e revestimentos de barreira térmica permitem operar com gases acima da temperatura de fusão da liga.",n:3},
+{q:"Qual liga é famosa pelo efeito de memória de forma?",o:["Níquel-titânio (nitinol)","Cobre-zinco (latão)","Ferro-carbono (aço)","Alumínio-silício"],e:"A transformação martensítica reversível permite que a peça volte à forma original ao ser aquecida.",n:3},
+{q:"Para que serve a regra da alavanca em um diagrama de fases?",o:["Determinar as frações de cada fase em uma região bifásica","Calcular a temperatura de fusão do metal puro","Medir a dureza das fases","Determinar o tamanho de grão"],e:"Em uma temperatura e composição dadas, as frações são proporcionais aos segmentos opostos da linha de amarração.",n:3},
+{q:"Qual é o mecanismo básico da deformação plástica nos metais cristalinos?",o:["O movimento de discordâncias","A fusão local dos contornos de grão","A quebra das ligações metálicas em todo o plano","A difusão do carbono"],e:"Obstáculos ao movimento das discordâncias (soluto, precipitados, contornos) endurecem o metal.",n:3},
+{q:"O que é a temperatura de transição vítrea (Tg) de um polímero?",o:["A temperatura em que um polímero amorfo passa de rígido e vítreo para borrachoso","A temperatura de fusão do polímero cristalino","A temperatura de decomposição do polímero","A temperatura em que o polímero começa a queimar"],e:"Acima dela o material amolece e as cadeias ganham mobilidade, o que afeta a rigidez e o uso em serviço.",n:3}
+],
+fluid:[
+{q:"Qual é a unidade da viscosidade dinâmica no SI?",o:["Pa·s","m²/s","N/m","kg/m³"],e:"O m²/s é a unidade da viscosidade cinemática (ν = μ/ρ).",n:2},
+{q:"O número de Reynolds é a razão entre...",o:["forças de inércia e forças viscosas","pressão e densidade","velocidade do fluido e velocidade do som","peso e empuxo"],e:"Re baixo indica escoamento laminar. Re alto indica escoamento turbulento.",n:1},
+{q:"A equação de Bernoulli expressa, essencialmente, a conservação de...",o:["energia ao longo de uma linha de corrente","massa em um volume de controle","quantidade de movimento angular","entropia"],e:"Vale para escoamento incompressível, sem atrito e em regime permanente: p + ½ρv² + ρgh = constante.",n:2},
+{q:"Em um tubo circular, o escoamento é tipicamente laminar quando Re é menor que cerca de...",o:["2.300","50","100.000","1.000.000"],e:"Entre cerca de 2.300 e 4.000 está a transição. Acima disso, o escoamento é turbulento.",n:3},
+{q:"Qual princípio explica o funcionamento de um macaco hidráulico?",o:["Princípio de Pascal","Princípio de Arquimedes","Efeito Venturi","Lei de Stevin"],e:"A pressão aplicada a um fluido confinado se transmite integralmente. Com áreas diferentes, a força é multiplicada.",n:1},
+{q:"O empuxo sobre um corpo imerso é igual...",o:["ao peso do fluido deslocado","ao peso do corpo","à pressão no fundo do recipiente","à densidade do corpo"],e:"Princípio de Arquimedes: E = ρ·g·V, com V o volume submerso.",n:1},
+{q:"O que é cavitação em uma bomba?",o:["Formação e colapso de bolhas de vapor onde a pressão local cai abaixo da pressão de vapor","Aumento excessivo da vazão","Vazamento pela gaxeta","Congelamento do fluido"],e:"Causa ruído, vibração e erosão no rotor. É evitada garantindo NPSH disponível adequado.",n:3},
+{q:"Na equação da continuidade de um fluido incompressível, se a área do tubo diminui, a velocidade...",o:["aumenta","diminui","permanece constante","torna-se zero"],e:"A1·v1 = A2·v2: a vazão volumétrica se conserva.",n:1},
+{q:"O número de Mach compara a velocidade do escoamento com...",o:["a velocidade do som no meio","a velocidade da luz","a velocidade média do vento","a velocidade de rotação do rotor"],e:"Mach maior que 1 significa escoamento supersônico.",n:2},
+{q:"Qual instrumento mede vazão a partir da queda de pressão em uma garganta convergente-divergente?",o:["Tubo de Venturi","Manômetro de Bourdon","Tubo de Pitot","Viscosímetro"],e:"No Venturi a velocidade aumenta na garganta e a pressão cai. Essa diferença indica a vazão.",n:2},
+{q:"Qual é o perfil de velocidades do escoamento laminar plenamente desenvolvido em um tubo circular?",o:["Parabólico","Uniforme","Linear","Logarítmico"],e:"É o escoamento de Hagen-Poiseuille. A velocidade máxima, no centro, é o dobro da velocidade média.",n:3},
+{q:"No escoamento laminar em um tubo circular, o fator de atrito de Darcy vale...",o:["64/Re","0,316/Re^0,25","Re/64","0,02, constante"],e:"No regime laminar f = 64/Re, independente da rugosidade da parede.",n:3},
+{q:"Qual é a densidade aproximada da água líquida?",o:["1.000 kg/m³","100 kg/m³","10.000 kg/m³","1,0 kg/m³"],e:"É a base de muitas unidades: 1 litro de água tem 1 kg.",n:1},
+{q:"Qual é a expressão da pressão hidrostática em um líquido em repouso?",o:["p = ρ·g·h","p = ρ·v²/2","p = F·A","p = m·g/h"],e:"A pressão cresce linearmente com a profundidade h.",n:1},
+{q:"Qual é o valor aproximado da pressão atmosférica ao nível do mar?",o:["101 kPa","10 kPa","1.000 kPa","1 kPa"],e:"Equivale a cerca de 1 atm, 1,013 bar ou 760 mmHg.",n:1},
+{q:"O que é pressão manométrica?",o:["A pressão medida em relação à pressão atmosférica local","A pressão medida em relação ao vácuo absoluto","A pressão exercida apenas pela água","A pressão máxima suportada por um tubo"],e:"Pabs = Pman + Patm. Um pneu a 2,2 bar manométricos tem cerca de 3,2 bar absolutos.",n:1},
+{q:"O que caracteriza um fluido?",o:["Deforma-se continuamente quando submetido a uma tensão de cisalhamento","Mantém a forma sob qualquer tensão","Não tem massa","Só existe no estado líquido"],e:"Líquidos e gases são fluidos.",n:1},
+{q:"Qual destes fluidos é mais viscoso à temperatura ambiente?",o:["Mel","Água","Álcool","Ar"],e:"Quanto maior a viscosidade, maior a resistência ao escoamento.",n:1},
+{q:"Como se calcula a vazão volumétrica em um tubo?",o:["Q = A·v, área da seção vezes velocidade média","Q = A/v","Q = ρ·g·h","Q = p·A"],e:"Em m³/s no SI.",n:1},
+{q:"Qual é a unidade de vazão volumétrica no SI?",o:["m³/s","kg/m³","N/m²","m/s²"],e:"Também são comuns litros por minuto (L/min) e metros cúbicos por hora (m³/h).",n:1},
+{q:"Qual é a função de uma bomba?",o:["Fornecer energia ao fluido, aumentando sua pressão ou altura","Extrair energia do fluido","Medir a vazão","Filtrar impurezas do fluido"],e:"Bombas transformam a energia mecânica de um motor em energia hidráulica.",n:1},
+{q:"Qual é a função de uma turbina hidráulica?",o:["Extrair energia do fluido e convertê-la em trabalho mecânico","Aumentar a pressão do fluido","Resfriar o fluido","Medir a viscosidade do fluido"],e:"Em hidrelétricas, o trabalho mecânico da turbina aciona o gerador.",n:1},
+{q:"Qual instrumento mede a pressão de um fluido?",o:["Manômetro","Termômetro","Anemômetro","Tacômetro"],e:"Pode ser de coluna de líquido, de Bourdon ou eletrônico (transdutor).",n:1},
+{q:"Como é o escoamento laminar?",o:["Em camadas paralelas, sem mistura significativa entre elas","Com grande agitação e redemoinhos","Sempre acima da velocidade do som","Só ocorre em gases"],e:"Corante injetado em escoamento laminar forma uma linha reta bem definida.",n:1},
+{q:"O que acontece com a viscosidade dos líquidos quando a temperatura aumenta?",o:["Diminui","Aumenta","Fica sempre igual","Torna-se infinita"],e:"É por isso que óleo quente escorre mais facilmente. Nos gases, ocorre o contrário.",n:1},
+{q:"Qual válvula permite o escoamento em um só sentido, impedindo o retorno do fluido?",o:["Válvula de retenção","Válvula de gaveta","Válvula borboleta","Válvula de alívio"],e:"É instalada, por exemplo, na saída de bombas para evitar o refluxo ao desligar.",n:1},
+{q:"Por que um navio de aço flutua?",o:["Porque o peso da água que ele desloca é igual ao seu peso","Porque o aço é menos denso que a água","Porque o ar o puxa para cima","Porque a água o empurra para os lados"],e:"A densidade média do conjunto casco e ar interno é menor que a da água.",n:1},
+{q:"Qual é a pressão manométrica a 10 m de profundidade na água?",o:["Cerca de 98 kPa","Cerca de 10 kPa","Cerca de 980 kPa","Cerca de 1 kPa"],e:"p = ρ·g·h = 1.000·9,81·10 ≈ 98 kPa, quase 1 atm adicional a cada 10 m.",n:2},
+{q:"O que é um fluido newtoniano?",o:["Aquele em que a tensão de cisalhamento é proporcional à taxa de deformação","Aquele que não tem viscosidade","Aquele cuja viscosidade muda com a taxa de deformação","Aquele que só existe em gases"],e:"Água, ar e óleos finos são newtonianos. O ketchup e o sangue não são.",n:2},
+{q:"O que é a camada limite?",o:["A região junto à parede em que a velocidade varia de zero até a da corrente livre","A região de maior velocidade do escoamento","A camada de gelo formada em tubulações","O limite entre dois líquidos imiscíveis"],e:"Ela é a responsável pelo atrito viscoso e pela troca de calor com a parede.",n:2},
+{q:"Qual é a diferença entre arrasto e sustentação?",o:["O arrasto é paralelo ao escoamento e a sustentação, perpendicular a ele","O arrasto é perpendicular ao escoamento e a sustentação, paralela","São a mesma força","Ambos são paralelos ao escoamento"],e:"Em uma asa, a sustentação equilibra o peso e o arrasto precisa ser vencido pelo empuxo do motor.",n:2},
+{q:"Qual é a expressão da força de arrasto?",o:["F = ½·ρ·v²·Cd·A","F = ρ·g·h·A","F = μ·v/L","F = m·a"],e:"Cd é o coeficiente de arrasto. A força cresce com o quadrado da velocidade e a potência, com o cubo.",n:2},
+{q:"O que é a altura manométrica (head) de uma bomba?",o:["A energia por unidade de peso fornecida ao fluido, expressa em metros de coluna de fluido","A altura física da bomba","A pressão máxima do tubo","A vazão máxima da bomba"],e:"Como H = Δp/(ρ·g), ela é independente do fluido bombeado em termos de energia por peso.",n:2},
+{q:"Como se determina o ponto de operação de uma bomba em um sistema?",o:["Na interseção da curva da bomba com a curva do sistema","Pela potência do motor apenas","Pela rotação máxima da bomba","Pela temperatura do fluido apenas"],e:"Nesse ponto, a altura fornecida pela bomba é igual à altura exigida pela tubulação.",n:2},
+{q:"O que é perda de carga localizada?",o:["A perda de energia causada por válvulas, curvas e conexões","A perda de energia ao longo do trecho reto do tubo","A perda de massa por vazamento","A perda de temperatura do fluido"],e:"Costuma ser calculada com um coeficiente K: hL = K·v²/(2g).",n:2},
+{q:"Como se define o diâmetro hidráulico de um duto não circular?",o:["Dh = 4·A/P, com área da seção e perímetro molhado","Dh = A/P","Dh = P/A","Dh = 2·A·P"],e:"Para um tubo circular, Dh é igual ao diâmetro. Ele é usado no cálculo de Reynolds e do fator de atrito em dutos retangulares.",n:2},
+{q:"Qual é a velocidade de saída de um fluido por um orifício a uma profundidade h em um tanque aberto (Torricelli)?",o:["v = √(2·g·h)","v = g·h","v = 2·g·h","v = √(g·h)"],e:"É a mesma velocidade que um corpo teria em queda livre de altura h.",n:2},
+{q:"O que mede um tubo de Pitot?",o:["A velocidade do escoamento, a partir da pressão de estagnação","A temperatura do fluido","A viscosidade do fluido","A rugosidade do tubo"],e:"É usado em aviões para medir a velocidade relativa ao ar: v = √(2·Δp/ρ).",n:2},
+{q:"A partir de que número de Mach os efeitos de compressibilidade do ar passam a ser importantes?",o:["Cerca de 0,3","Cerca de 0,01","Cerca de 3","Apenas acima de 10"],e:"Com Mach de 0,3, a variação de densidade chega a cerca de 5%.",n:2},
+{q:"O que é golpe de aríete?",o:["Sobrepressão causada pela interrupção brusca do escoamento em uma tubulação","Perda de carga em curvas","Cavitação em bombas","Vazamento em juntas"],e:"Pode romper tubulações. Evita-se com fechamento lento de válvulas, válvulas de alívio e câmaras de ar.",n:2},
+{q:"Como é a vazão de uma bomba de deslocamento positivo em relação à pressão de descarga?",o:["Praticamente independente da pressão","Diminui muito com a pressão","Aumenta com o quadrado da pressão","É sempre nula"],e:"Bombas de engrenagens, de pistão e de parafuso são exemplos, comuns em sistemas hidráulicos e para fluidos viscosos.",n:2},
+{q:"Em que condição a turbina Pelton é mais adequada?",o:["Grandes alturas de queda e pequenas vazões","Pequenas alturas de queda e grandes vazões","Escoamento sem queda alguma","Apenas em escoamento de gases"],e:"Jatos de água em alta velocidade atingem conchas na periferia da roda. Para baixa queda e alta vazão, usam-se Kaplan ou Francis.",n:2},
+{q:"O que é o NPSH disponível em uma instalação de bombeamento?",o:["A diferença entre a pressão total na sucção e a pressão de vapor, em altura de coluna de fluido","A altura máxima de recalque da bomba","A potência do motor da bomba","A vazão mínima da bomba"],e:"Para evitar a cavitação, o NPSH disponível deve superar o NPSH requerido pela bomba.",n:3},
+{q:"Quais equações descrevem o movimento de fluidos viscosos newtonianos?",o:["Navier-Stokes","Bernoulli","Hagen-Poiseuille apenas","Fourier"],e:"São a aplicação da segunda lei de Newton a um elemento de fluido, e não têm solução geral analítica conhecida.",n:3},
+{q:"Qual é a equação de Darcy-Weisbach para a perda de carga distribuída?",o:["hf = f·(L/D)·v²/(2g)","hf = f·L·D/(2g)","hf = f·v/(L·D)","hf = ρ·g·L/D"],e:"O fator de atrito f depende do número de Reynolds e da rugosidade relativa.",n:3},
+{q:"O que mostra o diagrama de Moody?",o:["O fator de atrito em função do Reynolds e da rugosidade relativa","A vazão em função da pressão","A eficiência da bomba em função da vazão","A viscosidade em função da temperatura"],e:"É a ferramenta clássica para obter f em tubos com escoamento laminar, de transição ou turbulento.",n:3},
+{q:"No regime turbulento plenamente rugoso, o fator de atrito...",o:["Depende apenas da rugosidade relativa, não do Reynolds","Depende apenas do Reynolds","É igual a 64/Re","É sempre zero"],e:"Nesse regime, as asperidades ficam acima da subcamada viscosa e dominam o arrasto.",n:3},
+{q:"O que afirma o teorema Pi de Buckingham?",o:["Um problema com n variáveis e k dimensões fundamentais pode ser descrito por n − k grupos adimensionais","Toda equação física deve ser linear","O número de Reynolds é sempre igual a 2.300","A pressão é sempre proporcional à velocidade"],e:"É a base da análise dimensional e da semelhança entre modelo e protótipo.",n:3},
+{q:"O que o número de Froude compara?",o:["Forças de inércia e forças gravitacionais","Forças viscosas e forças de pressão","Convecção e condução","Forças de inércia e tensão superficial"],e:"É essencial em escoamentos com superfície livre, como canais, vertedouros e ondas em cascos de navios.",n:3},
+{q:"O que ocorre em um choque normal em escoamento compressível?",o:["O escoamento passa de supersônico para subsônico, com aumento de pressão, temperatura e entropia","O escoamento passa de subsônico para supersônico","A pressão diminui bruscamente","A entropia diminui"],e:"É um processo irreversível, com perda de pressão total.",n:3},
+{q:"Em que ponto do bocal convergente-divergente (de Laval) o escoamento atinge Mach 1?",o:["Na garganta, quando o bocal está bloqueado","Na entrada","Na saída, sempre","Em nenhum ponto"],e:"Após a garganta, a seção divergente acelera o escoamento supersônico, o que é usado em foguetes e túneis supersônicos.",n:3},
+{q:"Pelas leis de semelhança de bombas centrífugas, como variam vazão (Q), altura (H) e potência (P) com a rotação N?",o:["Q ∝ N, H ∝ N² e P ∝ N³","Q ∝ N², H ∝ N e P ∝ N","Q ∝ N³, H ∝ N² e P ∝ N","Todas proporcionais a N"],e:"Dobrar a rotação dobra a vazão, quadruplica a altura e multiplica a potência por 8.",n:3},
+{q:"O que causa a separação da camada limite?",o:["Um gradiente adverso de pressão que faz o fluido junto à parede inverter o sentido","Um gradiente favorável de pressão","A diminuição do Reynolds a zero","A rugosidade ser nula"],e:"Ela forma esteiras de baixa pressão, aumenta o arrasto e pode causar o estol de uma asa.",n:3},
+{q:"O que é o efeito Magnus?",o:["Uma força lateral sobre um corpo que gira em um escoamento","A redução da viscosidade com a temperatura","A cavitação em pás de hélice","O aumento da pressão em uma contração"],e:"Explica a curva de uma bola chutada com efeito. Os rotores Flettner de navios o usam para propulsão.",n:3},
+{q:"Qual tem maior viscosidade cinemática à temperatura ambiente: o ar ou a água?",o:["O ar, cerca de 15 vezes maior","A água, cerca de 15 vezes maior","São iguais","Depende apenas da pressão"],e:"A água é muito mais viscosa em termos dinâmicos (μ), mas, por ser cerca de 800 vezes mais densa, tem ν menor: cerca de 1×10⁻⁶ m²/s, contra 1,5×10⁻⁵ m²/s do ar.",n:3},
+{q:"Qual é o fator de atrito de Darcy em escoamento turbulento hidraulicamente liso, segundo a correlação de Blasius, válida até Re de cerca de 10⁵?",o:["f = 0,316/Re^0,25","f = 64/Re","f = 0,02, constante","f = Re/64"],e:"O atrito cai lentamente com o Reynolds. Para escoamentos mais intensos, usam-se Colebrook ou Haaland.",n:3}
+],
+elem:[
+{q:"Qual é a principal vantagem das engrenagens helicoidais em relação às de dentes retos?",o:["Funcionamento mais suave e silencioso","Não geram esforço axial","São mais baratas de fabricar","Dispensam lubrificação"],e:"O engrenamento é gradual, mas a inclinação dos dentes gera força axial, o que exige mancais adequados.",n:2},
+{q:"O módulo (m) de uma engrenagem é dado por...",o:["diâmetro primitivo dividido pelo número de dentes","número de dentes dividido pelo diâmetro externo","largura do dente dividida pelo passo","raio da base vezes o ângulo de pressão"],e:"m = d/z. Duas engrenagens só engrenam corretamente se tiverem o mesmo módulo.",n:2},
+{q:"Um pinhão de 20 dentes a 1.200 rpm aciona uma coroa de 60 dentes. Qual é a rotação da coroa?",o:["400 rpm","3.600 rpm","600 rpm","1.200 rpm"],e:"n2 = n1·z1/z2 = 1.200·20/60 = 400 rpm. É uma redução de 3:1, com torque cerca de 3 vezes maior (sem perdas).",n:2},
+{q:"Qual é a função da chaveta?",o:["Transmitir torque entre eixo e cubo","Reduzir o atrito entre superfícies","Vedar o óleo de um mancal","Absorver choques"],e:"Ela fica alojada nos rasgos do eixo e do cubo, impedindo a rotação relativa entre eles.",n:1},
+{q:"Qual tipo de engrenagem é usado para eixos concorrentes, isto é, que se cruzam?",o:["Cônicas","Cilíndricas de dentes retos","Cremalheira","Helicoidais de eixos paralelos"],e:"O diferencial dos automóveis usa engrenagens cônicas.",n:1},
+{q:"O conjunto sem-fim e coroa é conhecido por...",o:["alta redução em um único estágio e possibilidade de autotravamento","rendimento superior a 99%","transmitir movimento entre eixos paralelos","funcionar sem atrito"],e:"O rendimento é menor por causa do deslizamento. Em compensação, o conjunto pode impedir que a carga acione o sem-fim.",n:3},
+{q:"O que caracteriza um mancal de deslizamento hidrodinâmico?",o:["O eixo flutua sobre uma película de óleo gerada pela rotação","Possui esferas entre os anéis","Funciona sem lubrificante","Só suporta cargas axiais"],e:"Com a película formada, não há contato metal com metal: o atrito e o desgaste são baixos.",n:3},
+{q:"Qual é a função do volante de inércia?",o:["Armazenar energia cinética e suavizar flutuações de velocidade","Aumentar a relação de transmissão","Transmitir potência entre eixos desalinhados","Frear o motor"],e:"Está presente em motores a pistão, que entregam torque pulsante.",n:2},
+{q:"Qual elemento de máquina é projetado principalmente para armazenar energia elástica?",o:["Mola","Rolamento","Engrenagem","Chaveta"],e:"As molas helicoidais seguem a Lei de Hooke: F = k·x.",n:1},
+{q:"Qual elemento permite a rotação com baixo atrito entre um eixo e sua carcaça usando esferas ou rolos?",o:["Rolamento","Chaveta","Mola","Engrenagem"],e:"Os rolamentos trocam o atrito de deslizamento pelo de rolamento, bem menor.",n:1},
+{q:"O que significa a vida nominal L10 de um rolamento?",o:["A vida atingida ou superada por 90% de um grupo de rolamentos iguais","A vida média de todos os rolamentos","O tempo até a primeira troca de lubrificante","A vida com 10% de carga acima da nominal"],e:"É expressa em milhões de rotações: L10 = (C/P)^p, com C a carga dinâmica e P a carga equivalente.",n:3},
+{q:"Qual perfil de dente é o mais usado em engrenagens por manter constante a relação de transmissão?",o:["Evolvente","Cicloidal","Parabólico","Trapezoidal"],e:"O perfil evolvente mantém a relação de transmissão constante mesmo com pequenas variações na distância entre centros.",n:3},
+{q:"Qual é a principal função de um parafuso?",o:["Unir peças de forma desmontável","Unir peças de forma permanente","Transmitir torque entre eixos","Armazenar energia elástica"],e:"A rosca converte o torque de aperto em força de fixação entre as peças.",n:1},
+{q:"Qual é a característica da união por rebites?",o:["É permanente: para desmontar, é preciso destruir o rebite","É facilmente desmontável","Não suporta cargas de cisalhamento","Só é usada em madeira"],e:"Foi muito usada em estruturas metálicas e aeronaves, até ser em grande parte substituída por soldagem e parafusos de alta resistência.",n:1},
+{q:"Qual é a função de um eixo em uma máquina?",o:["Suportar elementos rotativos e transmitir movimento e torque","Armazenar energia térmica","Vedar fluidos","Medir velocidade"],e:"Eixos podem ser fixos (apenas suportam) ou rotativos (transmitem torque). Árvore é um eixo que transmite potência.",n:1},
+{q:"Como funciona uma transmissão por polias e correia?",o:["O atrito entre a correia e as polias transmite o movimento entre eixos afastados","As polias se engrenam diretamente","A correia solda as polias","A correia gira sem tocar nas polias"],e:"É silenciosa e absorve choques, mas pode patinar.",n:1},
+{q:"Qual é um exemplo de transmissão por corrente?",o:["A bicicleta, entre a coroa e a catraca","O relógio de pulso","O ventilador de teto","A porta de vidro"],e:"A corrente engrena nos dentes das rodas e não patina, mas exige lubrificação.",n:1},
+{q:"Engrenagens cilíndricas de dentes retos são usadas para transmitir movimento entre eixos...",o:["paralelos","perpendiculares","que se cruzam a 45°","reversos"],e:"Elas são simples e baratas, mas podem ser mais ruidosas que as helicoidais.",n:1},
+{q:"Qual é a função de uma cremalheira?",o:["Converter o movimento de rotação de uma engrenagem em translação","Frear um eixo","Isolar vibrações","Reduzir a rotação de um eixo"],e:"A direção mecânica por pinhão e cremalheira é um exemplo comum.",n:1},
+{q:"Qual é a função de um freio?",o:["Dissipar a energia cinética para reduzir a velocidade ou parar um movimento","Aumentar a velocidade","Armazenar energia elétrica","Reduzir o desgaste em engrenagens"],e:"A energia cinética é convertida em calor por atrito.",n:1},
+{q:"Qual é a função de uma embreagem?",o:["Conectar e desconectar o movimento entre dois eixos","Dissipar calor","Absorver vibrações do motor","Medir torque"],e:"No carro, ela permite trocar de marcha sem que o motor seja forçado.",n:1},
+{q:"Para que serve o lubrificante em uma máquina?",o:["Reduzir atrito e desgaste e ajudar no resfriamento","Aumentar o atrito","Aumentar a rigidez das peças","Colorir as peças"],e:"Além disso, o lubrificante protege contra corrosão e remove partículas.",n:1},
+{q:"Para que serve uma arruela?",o:["Distribuir a carga do parafuso e proteger a superfície, e pode ajudar a evitar o afrouxamento","Aumentar o comprimento do parafuso","Substituir a porca","Reduzir a rosca"],e:"Há arruelas lisas, de pressão e dentadas.",n:1},
+{q:"Qual é a função de uma junta de vedação?",o:["Evitar o vazamento de fluidos entre duas superfícies","Aumentar o atrito","Conduzir calor","Unir permanentemente duas peças"],e:"O cabeçote de um motor, por exemplo, usa uma junta para vedar óleo, água e gases.",n:1},
+{q:"Qual é a função de um mancal?",o:["Apoiar um eixo permitindo sua rotação","Transmitir torque entre eixos","Reduzir a rotação","Vedar fluidos"],e:"Podem ser de rolamento ou de deslizamento (buchas).",n:1},
+{q:"O que é o passo de uma rosca?",o:["A distância axial entre dois filetes consecutivos","O diâmetro externo do parafuso","O comprimento total do parafuso","A altura do filete"],e:"Em roscas métricas, o passo é dado em milímetros, como M10 × 1,5.",n:1},
+{q:"Para que serve um acoplamento?",o:["Unir dois eixos para transmitir movimento e torque","Reduzir a pressão em tubos","Isolar termicamente peças","Medir deformações"],e:"Alguns acoplamentos compensam pequenos desalinhamentos e absorvem choques.",n:1},
+{q:"Uma polia motora de 100 mm a 1.800 rpm aciona uma polia de 300 mm por correia. Qual é a rotação da polia movida?",o:["600 rpm","5.400 rpm","1.800 rpm","200 rpm"],e:"n2 = n1·d1/d2 = 1.800·100/300 = 600 rpm, uma redução de 3:1 (desconsiderando o escorregamento).",n:2},
+{q:"Um motor entrega 10 kW a 1.000 rpm. Qual é o torque no eixo?",o:["Cerca de 95 N·m","Cerca de 10 N·m","Cerca de 955 N·m","Cerca de 10.000 N·m"],e:"P = T·ω, com ω = 1.000·2π/60 ≈ 104,7 rad/s: T = 10.000/104,7 ≈ 95,5 N·m.",n:2},
+{q:"Qual é a vantagem de uma correia em V em relação a uma correia plana?",o:["Maior capacidade de transmissão, pelo efeito de cunha nas canaletas","Menor atrito","Não precisa de polias","Funciona sem tensão"],e:"A cunha aumenta a força normal no contato, e portanto a aderência, para a mesma tensão.",n:2},
+{q:"Qual é a principal característica das correias dentadas?",o:["Transmitem movimento sem escorregamento, mantendo o sincronismo","Patinam para proteger a máquina","Dispensam polias","Funcionam apenas em baixa rotação"],e:"No motor, a correia dentada sincroniza o virabrequim e o comando de válvulas.",n:2},
+{q:"Qual é o ângulo de pressão mais comum em engrenagens?",o:["20°","5°","45°","60°"],e:"Ângulos maiores dão dentes mais robustos na raiz, mas aumentam a força radial nos mancais.",n:2},
+{q:"O que é a interferência de dentes em engrenagens?",o:["A ponta do dente de uma engrenagem toca a raiz do dente da outra, quando o número de dentes é muito pequeno","O desgaste por falta de óleo","A vibração por desbalanceamento","O aquecimento do eixo"],e:"Para ângulo de pressão de 20°, o número mínimo de dentes sem interferência (sem correção) é cerca de 17.",n:2},
+{q:"Quando um parafuso de potência é autotravante?",o:["Quando o atrito é suficiente para impedir que a carga o faça girar","Quando o passo é muito grande","Quando é feito de aço inoxidável","Quando não tem rosca"],e:"Macacos de rosca dependem dessa propriedade para manter a carga elevada.",n:2},
+{q:"Qual é o perfil da rosca métrica ISO?",o:["Triangular, com ângulo de 60°","Quadrado","Trapezoidal, com 30°","Redondo"],e:"Roscas quadradas e trapezoidais são mais usadas em parafusos de movimento, como em fusos de máquinas.",n:2},
+{q:"Qual é a vantagem dos rolamentos de rolos em relação aos de esferas?",o:["Suportam cargas maiores, por terem contato linear em vez de pontual","São mais silenciosos em alta rotação","Têm menor atrito sempre","Dispensam lubrificação"],e:"Os de esferas giram mais rápido e com menos atrito, mas suportam menos carga.",n:2},
+{q:"Para que tipo de carga se usa o rolamento de rolos cônicos?",o:["Cargas radiais e axiais combinadas","Apenas cargas axiais","Apenas cargas radiais leves","Nenhuma carga"],e:"É muito usado em cubos de roda de veículos e caixas de redução.",n:2},
+{q:"Para que serve uma junta universal (cardan)?",o:["Transmitir rotação entre eixos que formam um ângulo variável","Unir eixos perfeitamente alinhados","Frear eixos","Reduzir a rotação"],e:"É usada no eixo de transmissão de veículos. Uma junta única gera variação cíclica de velocidade, compensada com duas em fase.",n:2},
+{q:"Qual é a diferença básica entre freio a disco e a tambor?",o:["No a disco, pastilhas pressionam as faces de um disco, e no a tambor, sapatas pressionam a parede interna do tambor","O a disco usa fluido de freio e o a tambor, não","O a tambor não usa atrito","O a disco só funciona em motocicletas"],e:"Os discos dissipam melhor o calor, por isso são usados nas rodas dianteiras, que concentram a maior parte da frenagem.",n:2},
+{q:"Como se comporta a rigidez (k) de uma mola helicoidal de compressão ao aumentar o diâmetro do fio?",o:["Aumenta fortemente, com a quarta potência do diâmetro do fio","Diminui","Não se altera","Fica igual a zero"],e:"k = G·d⁴/(8·D³·N). O diâmetro médio D da espiral, ao contrário, reduz a rigidez com o cubo.",n:2},
+{q:"Para que serve a pré-carga em parafusos de uma junta?",o:["Evitar a separação das peças e reduzir a variação de tensão no parafuso, melhorando a vida à fadiga","Aumentar o peso da junta","Reduzir a rigidez da junta","Facilitar a corrosão"],e:"Com pré-carga adequada, a carga externa é absorvida principalmente pela rigidez da junta, e não pelo parafuso.",n:2},
+{q:"Em um ajuste com interferência, o eixo é...",o:["Maior que o furo antes da montagem, e a união é feita por prensagem ou dilatação térmica","Menor que o furo, com folga","Igual ao furo, sem tolerância","Sempre cônico"],e:"A interferência gera pressão no contato, e a união transmite torque por atrito.",n:2},
+{q:"Qual é a distância entre centros de duas engrenagens de módulo 3 com 20 e 50 dentes?",o:["105 mm","210 mm","70 mm","150 mm"],e:"a = m·(z1 + z2)/2 = 3·70/2 = 105 mm.",n:3},
+{q:"Em engrenagens, a equação de Lewis permite estimar...",o:["A tensão de flexão no pé do dente","A tensão de contato na superfície do dente","A velocidade de corte do dente","A temperatura do óleo"],e:"A falha por flexão do dente é um dos dois critérios de projeto, ao lado da resistência superficial (pitting).",n:3},
+{q:"Qual é a causa do pitting (cavidades superficiais) em engrenagens e rolamentos?",o:["Fadiga superficial por tensões de contato de Hertz","Corrosão atmosférica","Flexão do dente","Sobrecarga estática única"],e:"Tensões de contato repetidas geram microtrincas que arrancam pequenas partículas da superfície.",n:3},
+{q:"Qual critério de fadiga é mais usado no dimensionamento de eixos sob tensões alternadas e médias?",o:["Goodman modificado ou Soderberg","Torricelli","Bernoulli","Reynolds"],e:"Eles combinam a tensão alternada e a tensão média com o limite de resistência à fadiga e o limite de resistência ou escoamento.",n:3},
+{q:"Qual relação aproximada vale para o torque de aperto de um parafuso?",o:["T = K·F·d, com fator de torque K ≈ 0,2","T = F/d","T = K·F/d²","T = F·d²"],e:"F é a pré-carga e d, o diâmetro nominal. A maior parte do torque aplicado é gasta em atrito, e só uma pequena parte vira pré-carga.",n:3},
+{q:"O que é a lubrificação elastohidrodinâmica?",o:["O regime em que a película de óleo se forma entre superfícies que se deformam elasticamente, como em engrenagens e rolamentos","A lubrificação a seco","A lubrificação com graxa sólida","A ausência de lubrificante"],e:"A pressão alta no contato eleva localmente a viscosidade do óleo e achata elasticamente as superfícies.",n:3},
+{q:"Qual é uma vantagem do trem de engrenagens planetário?",o:["Compacto, coaxial e capaz de grandes reduções, com divisão da carga entre vários satélites","Simples e sem engrenagens internas","Funciona apenas com redução 1:1","Não permite variar a relação"],e:"É usado em câmbios automáticos e em redutores de alta relação.",n:3},
+{q:"Qual é a função do diferencial em um veículo?",o:["Permitir que as rodas motrizes girem em velocidades diferentes nas curvas","Aumentar a potência do motor","Reduzir a rotação do motor","Frear o eixo"],e:"Na curva, a roda externa percorre uma distância maior que a interna e, portanto, precisa girar mais rápido.",n:3},
+{q:"O que representa o número de Sommerfeld em mancais de deslizamento?",o:["Um parâmetro adimensional que relaciona viscosidade, rotação, carga e folga","A rotação crítica do mancal","A temperatura do óleo","O diâmetro do eixo"],e:"É usado para determinar a excentricidade do eixo, o atrito e a espessura mínima do filme de óleo.",n:3},
+{q:"O que significa um ajuste H7/p6 pela norma ISO?",o:["Ajuste com interferência, de montagem forçada","Ajuste com folga, deslizante","Ajuste de transição, com leve folga ou interferência","Ajuste de rotação livre"],e:"H é a tolerância do furo, e p, do eixo. Ajustes H7/g6 e H7/h6 são com folga ou de deslizamento.",n:3},
+{q:"Qual é a razão de contato mínima desejável em engrenagens?",o:["Maior que 1, tipicamente entre 1,2 e 1,6","Exatamente 0,5","Igual a zero","Qualquer valor negativo"],e:"Com valor acima de 1, há sempre pelo menos um par de dentes em contato, o que garante transmissão contínua e suave.",n:3},
+{q:"Como um raio de concordância maior em um ressalto de eixo afeta a concentração de tensões?",o:["Reduz o fator de concentração de tensões","Aumenta o fator de concentração de tensões","Não tem efeito","Elimina o ressalto"],e:"Mudanças bruscas de seção são pontos clássicos de início de trincas de fadiga.",n:3},
+{q:"Como se define o índice de mola C de uma mola helicoidal?",o:["C = D/d, diâmetro médio da espira dividido pelo diâmetro do fio","C = d/D","C = N·d","C = G·d"],e:"Valores usuais ficam entre 4 e 12. Índices baixos geram molas rígidas e difíceis de enrolar, e índices altos, molas flexíveis e propensas a flambar.",n:3},
+{q:"Em uma transmissão por correia plana, qual relação limita a razão máxima entre as trações nos ramos tenso e frouxo?",o:["T1/T2 = e^(μ·θ), de Euler-Eytelwein","T1/T2 = μ/θ","T1/T2 = θ/μ","T1/T2 = 1, sempre"],e:"μ é o coeficiente de atrito e θ, o ângulo de abraçamento. Quanto maior o abraçamento, maior o torque transmitido sem deslizar.",n:3}
+],
+fab:[
+{q:"No torneamento, o que gira?",o:["A peça","A ferramenta de corte","A mesa e a ferramenta","Nenhum dos dois"],e:"A peça gira presa à placa e a ferramenta monocortante avança. É ideal para peças cilíndricas.",n:1},
+{q:"Qual processo usa uma ferramenta rotativa com vários gumes de corte?",o:["Fresamento","Torneamento","Plainamento","Brochamento"],e:"As fresas removem material para gerar superfícies planas, ranhuras, engrenagens e perfis complexos.",n:1},
+{q:"O que significa a sigla CNC?",o:["Comando Numérico Computadorizado","Controle Natural de Corte","Centro Nacional de Calibração","Corte Normalizado Contínuo"],e:"A máquina segue um programa (código G) que define trajetórias, velocidades e rotações.",n:1},
+{q:"Qual é o papel do gás na soldagem MIG/MAG?",o:["Proteger a poça de fusão contra o ar atmosférico","Aumentar a temperatura da chama","Resfriar o eletrodo","Remover a escória depois da solda"],e:"Sem proteção, o oxigênio e o nitrogênio do ar causam porosidade e fragilizam a solda.",n:2},
+{q:"Qual processo reduz a espessura do metal passando-o entre cilindros?",o:["Laminação","Forjamento","Trefilação","Extrusão"],e:"É usada para chapas, perfis e barras. Já a trefilação reduz a seção puxando o material por uma fieira.",n:2},
+{q:"Qual processo consiste em vazar metal líquido em um molde?",o:["Fundição","Estampagem","Sinterização","Usinagem"],e:"Dos blocos de motor a peças artísticas. Depois de solidificada, a peça costuma ser usinada.",n:1},
+{q:"A retificação é usada principalmente para...",o:["acabamento de precisão com rebolo abrasivo","desbaste pesado de peças brutas","furos profundos","unir peças por fusão"],e:"Atinge tolerâncias apertadas e baixa rugosidade superficial.",n:2},
+{q:"Na eletroerosão (EDM), o material é removido por...",o:["descargas elétricas entre eletrodo e peça","jato de água com abrasivo","corte mecânico com fresa","dissolução química em ácido"],e:"Permite usinar materiais muito duros, desde que sejam condutores de eletricidade.",n:3},
+{q:"A manufatura aditiva (impressão 3D) fabrica peças...",o:["adicionando material camada por camada","removendo material de um bloco","deformando chapas a frio","fundindo em moldes permanentes"],e:"Permite geometrias internas complexas, impossíveis de obter por usinagem.",n:2},
+{q:"Qual é a velocidade de corte (m/min) em função do diâmetro d (mm) e da rotação n (rpm)?",o:["vc = π·d·n/1000","vc = d·n/60","vc = π·d²·n","vc = n/(π·d)"],e:"Para uma ferramenta de 50 mm a 600 rpm, vc ≈ 94 m/min.",n:3},
+{q:"O que é a zona termicamente afetada (ZTA) de uma solda?",o:["A região do metal base que não fundiu, mas teve a microestrutura alterada pelo calor","A região fundida que forma o cordão","A camada de escória","O metal de adição depositado"],e:"A ZTA pode ficar mais dura e frágil, sendo um ponto crítico para trincas.",n:3},
+{q:"O que é o retorno elástico (springback) na dobra de chapas?",o:["A chapa recupera parte da deformação elástica ao ser descarregada e a dobra se abre","A chapa aumenta de espessura na região da dobra","A dobra endurece e fica mais frágil","A chapa trinca na face externa da dobra"],e:"Compensa-se dobrando um pouco além do ângulo final (sobredobra).",n:3},
+{q:"Qual é a principal função de uma furadeira?",o:["Fazer furos com uma broca","Dobrar chapas","Soldar peças","Polir superfícies"],e:"Furadeiras de bancada e de coluna fazem furos com mais precisão que as manuais.",n:1},
+{q:"Em que consiste o processo de forjamento?",o:["Deformar o metal por golpes ou pressão, geralmente a quente","Vazar metal líquido em molde","Cortar metal com disco abrasivo","Unir metais por fusão"],e:"Melhora a estrutura interna do metal e é muito usado em virabrequins, bielas e ferramentas.",n:1},
+{q:"Como funciona a extrusão?",o:["Uma barra aquecida é empurrada através de uma matriz com o perfil desejado","O metal é vazado em um molde de areia","O metal é cortado com serra","O metal é puxado por uma fieira"],e:"É muito usada em perfis de alumínio para janelas e estruturas.",n:1},
+{q:"O que é soldagem?",o:["União de peças por fusão ou aplicação de calor e/ou pressão, formando continuidade","União de peças por parafusos","União de peças com cola","Corte de peças por serra"],e:"Pode ocorrer por fusão (arco, laser) ou no estado sólido (fricção, ultrassom).",n:1},
+{q:"Qual é a característica da soldagem com eletrodo revestido (SMAW)?",o:["O revestimento do eletrodo forma gás e escória que protegem a poça","O eletrodo é de tungstênio e não funde","Usa gás de proteção externo em cilindro","Funciona sem corrente elétrica"],e:"É versátil e barata, muito usada em campo e manutenção.",n:1},
+{q:"Em que consiste a brasagem?",o:["Unir peças com um metal de adição de ponto de fusão menor que o das peças, sem fundir o metal base","Fundir o metal base e o de adição","Unir peças por prensagem a frio","Cortar chapas por plasma"],e:"Quando a temperatura é menor que 450 °C, o processo é chamado de soldagem branda.",n:1},
+{q:"O que é usinagem?",o:["Processo de fabricação por remoção de material na forma de cavacos","Processo de fabricação por fusão","Processo de fabricação por adição de material","Processo de fabricação por deformação plástica"],e:"Torneamento, fresamento, furação e retificação são exemplos.",n:1},
+{q:"O que é cavaco?",o:["O fragmento de material removido da peça durante a usinagem","A ferramenta de corte","O fluido de corte","A peça acabada"],e:"A forma do cavaco informa sobre as condições de corte.",n:1},
+{q:"Qual é a função do fluido de corte?",o:["Refrigerar e lubrificar a região de corte, além de remover cavacos","Aumentar o atrito","Endurecer a peça","Substituir a ferramenta"],e:"Ele aumenta a vida da ferramenta e melhora o acabamento.",n:1},
+{q:"Qual instrumento mede dimensões com resolução típica de 0,02 mm?",o:["Paquímetro","Régua de aço","Fita métrica","Trena de obra"],e:"Mede dimensões externas, internas, profundidade e ressaltos.",n:1},
+{q:"Qual instrumento oferece resolução típica de 0,01 mm para medir diâmetros externos?",o:["Micrômetro","Trena","Transferidor","Nível de bolha"],e:"O micrômetro usa um fuso de passo preciso, e a leitura é feita no tambor graduado.",n:1},
+{q:"O que é tolerância dimensional?",o:["A variação permitida entre as medidas máxima e mínima de uma dimensão","O erro de medição do instrumento","O peso da peça","A cor da peça"],e:"Define quão intercambiáveis são as peças. Tolerâncias mais apertadas custam mais.",n:1},
+{q:"O que mede a rugosidade Ra?",o:["A média aritmética dos desvios do perfil da superfície em relação à linha média","A dureza da superfície","A espessura da peça","A tensão residual"],e:"É expressa em micrômetros. Quanto menor o Ra, mais lisa a superfície.",n:1},
+{q:"Em que consiste a fundição em areia?",o:["Vazar metal líquido em um molde feito de areia compactada","Soldar peças de aço","Cortar metal com laser","Dobrar chapas a frio"],e:"É um processo barato e adequado a peças grandes e de baixo volume, como blocos de motor e carcaças.",n:1},
+{q:"Qual processo de conformação corta chapas usando punção e matriz?",o:["Estampagem de corte (puncionamento)","Forjamento","Extrusão","Trefilação"],e:"É usado na fabricação de arruelas, peças de carroceria e componentes eletrônicos.",n:1},
+{q:"Quais operações básicas são feitas em um torno mecânico?",o:["Cilindramento, faceamento, furação e rosqueamento","Soldagem e brasagem","Fundição e forjamento","Laminação e extrusão"],e:"A peça gira e a ferramenta se desloca no sentido longitudinal ou transversal.",n:2},
+{q:"Qual é a diferença entre fresamento concordante e discordante?",o:["No concordante, a fresa gira no mesmo sentido do avanço da peça, e no discordante, no sentido oposto","O concordante usa fluido e o discordante não","O concordante é feito só em ferro fundido","Não há diferença"],e:"O concordante deixa melhor acabamento, mas exige máquinas rígidas e sem folga nos fusos.",n:2},
+{q:"O que acontece com a resistência do metal em processos de conformação a frio?",o:["Aumenta, por encruamento, e a ductilidade diminui","Diminui, e a ductilidade aumenta","Não se altera","O metal se funde"],e:"A conformação a frio também melhora o acabamento e a precisão dimensional.",n:2},
+{q:"O que é a trefilação?",o:["Reduzir o diâmetro de fios e barras puxando-os por uma fieira","Empurrar o metal por uma matriz","Cortar o metal com uma serra","Vazar o metal em molde"],e:"É usada em fios elétricos, arames e cabos de aço.",n:2},
+{q:"Como é o eletrodo na soldagem TIG?",o:["De tungstênio, não consumível, e a proteção é feita por gás inerte","De aço, consumível, com revestimento","Sem eletrodo","De carvão"],e:"Produz soldas de alta qualidade e é muito usada em inox, alumínio e materiais finos.",n:2},
+{q:"Para que é muito usada a soldagem por resistência (solda ponto)?",o:["Unir chapas finas, como em carrocerias de automóveis","Soldar tubos grandes em campo","Unir blocos de concreto","Montar placas de circuito"],e:"A corrente elétrica passa pelas chapas e o calor gerado pela resistência de contato funde o ponto.",n:2},
+{q:"Qual é a característica da soldagem por arco submerso?",o:["O arco fica protegido por uma camada de fluxo granulado","O arco é visível e sem proteção","O processo não usa eletrodo","É usado apenas em peças pequenas"],e:"Alta taxa de deposição, usada em chapas grossas, vasos de pressão e navios.",n:2},
+{q:"O que é fundição sob pressão (die casting)?",o:["O metal fundido é injetado a alta pressão em um molde metálico permanente","O metal é vazado por gravidade em areia","O metal é prensado sólido","O metal é cortado a laser"],e:"Produz peças de zinco, alumínio e magnésio com alta produtividade e bom acabamento.",n:2},
+{q:"O que é a fundição por cera perdida (investimento)?",o:["Um modelo de cera é recoberto por cerâmica; a cera é derretida e o metal ocupa a cavidade","Um molde de areia é preparado com modelo de madeira","O metal é injetado sob pressão","Peças são soldadas em série"],e:"Permite peças complexas, de alta precisão, como palhetas de turbina e joias.",n:2},
+{q:"No que consiste a metalurgia do pó?",o:["Compactar pós metálicos em uma matriz e sinterizá-los","Fundir metais em fornos elétricos","Laminar chapas a quente","Usinar blocos de aço"],e:"É vantajosa para peças com formato final, como buchas autolubrificantes e engrenagens pequenas.",n:2},
+{q:"Em que consiste a moldagem por injeção de plásticos?",o:["Injetar polímero fundido em um molde, onde ele resfria e solidifica","Cortar chapas de polímero","Soldar polímeros com arco elétrico","Fundir polímero em areia"],e:"É o processo mais usado para peças plásticas de grande volume.",n:2},
+{q:"Em que consiste o dobramento de chapas?",o:["Deformar plasticamente a chapa ao longo de uma linha reta, em prensa dobradeira","Cortar a chapa com tesoura","Fundir a chapa","Laminar a chapa"],e:"É preciso prever o raio mínimo de dobra e o retorno elástico.",n:2},
+{q:"O que é a estampagem profunda (embutimento)?",o:["Forçar uma chapa plana em uma matriz para obter uma peça em forma de copo ou caixa","Cortar a chapa em tiras","Soldar chapas","Laminar a frio"],e:"Panelas, tanques de combustível e latas de bebida são feitos assim.",n:2},
+{q:"O que faz o comando G01 em um programa CNC?",o:["Movimento de interpolação linear com velocidade de avanço programada","Movimento rápido de posicionamento","Interpolação circular horária","Parada do programa"],e:"G00 é o posicionamento rápido, G02 e G03 são interpolações circulares.",n:2},
+{q:"Qual é a vantagem das ferramentas de metal duro (carboneto de tungstênio) em relação às de aço rápido?",o:["Permitem velocidades de corte bem maiores, por manterem a dureza em temperaturas altas","São sempre mais baratas","São mais tenazes e nunca quebram","Não precisam de fixação"],e:"Elas são frágeis em comparação ao aço rápido, e por isso são usadas em máquinas rígidas e com pastilhas intercambiáveis.",n:2},
+{q:"O que expressa a equação de Taylor para a vida da ferramenta de corte?",o:["V·T^n = C: quanto maior a velocidade de corte, menor a vida da ferramenta","V + T = C","T = C·V","T·V² = n"],e:"V é a velocidade de corte, T a vida, e n e C são constantes do par ferramenta-peça. Pequenos aumentos de V reduzem muito T.",n:3},
+{q:"Como se calcula a velocidade de avanço de uma fresa?",o:["vf = fz·z·n, com avanço por dente, número de dentes e rotação","vf = π·d·n","vf = fz/n","vf = z + n"],e:"Para fz = 0,1 mm, z = 4 e n = 1.000 rpm, vf = 400 mm/min.",n:3},
+{q:"Em usinagem, qual componente da força de usinagem costuma ser a maior?",o:["A força principal de corte","A força de avanço","A força passiva (radial)","Todas são iguais"],e:"É ela que determina a potência de corte: Pc = Fc·vc.",n:3},
+{q:"O que é a aresta postiça de corte?",o:["Material da peça que adere à aresta da ferramenta em baixas velocidades de corte","Um desgaste uniforme da ferramenta","Um revestimento de nitreto de titânio","Um tipo de cavaco contínuo"],e:"Ela piora o acabamento e causa lascamento. Aumentar a velocidade de corte costuma eliminá-la.",n:3},
+{q:"Qual é o efeito do ângulo de saída positivo em uma ferramenta de corte?",o:["Reduz as forças de corte, mas deixa a cunha mais frágil","Aumenta as forças de corte e deixa a cunha mais forte","Não altera as forças","Torna o cavaco sempre curto"],e:"Ângulos positivos são adequados a materiais macios, e negativos, a materiais duros e cortes interrompidos.",n:3},
+{q:"O que é o desgaste de flanco (VB) em uma ferramenta?",o:["Desgaste da superfície de folga da ferramenta, usado como critério de fim de vida","Desgaste do cabo da ferramenta","Quebra total da ferramenta","Deformação da peça"],e:"Um valor típico de critério de fim de vida é VB = 0,3 mm.",n:3},
+{q:"Em usinagem de alta velocidade, para onde vai a maior parte do calor gerado?",o:["Para o cavaco","Para a peça","Para a ferramenta","Para a máquina"],e:"A altas velocidades, o cavaco sai tão rápido que leva consigo a maior parte do calor, poupando a peça.",n:3},
+{q:"Qual é uma vantagem do corte a laser em relação ao corte por plasma?",o:["Maior precisão e menor zona afetada pelo calor em chapas finas","Capacidade de cortar chapas muito grossas","Menor custo do equipamento","Corte de qualquer material sem restrição"],e:"O plasma é mais indicado para chapas espessas de materiais condutores.",n:3},
+{q:"Como se calcula o aporte térmico em soldagem a arco?",o:["H = η·V·I/v, com rendimento, tensão, corrente e velocidade de soldagem","H = V·I·v","H = V/(I·v)","H = I²·v"],e:"Maior aporte significa resfriamento mais lento, ZTA maior e menor dureza, o que pode ajudar ou prejudicar, conforme o material.",n:3},
+{q:"Por que se faz o pré-aquecimento na soldagem de aços de maior carbono equivalente?",o:["Para reduzir a taxa de resfriamento e evitar a formação de martensita e trincas a frio","Para aumentar a dureza da ZTA","Para fundir o metal base","Para reduzir a corrente"],e:"O pré-aquecimento também ajuda a eliminar hidrogênio da junta.",n:3},
+{q:"Para que serve o massalote em uma peça fundida?",o:["Fornecer metal líquido para compensar a contração de solidificação e evitar rechupes","Aumentar a resistência da peça","Fixar o molde","Resfriar o molde"],e:"O massalote precisa solidificar depois da peça, e por isso é projetado com maior módulo de resfriamento.",n:3},
+{q:"O que distingue a conformação a quente da conformação a frio?",o:["A temperatura de trabalho, acima da de recristalização no processo a quente","A conformação a frio é feita sempre em fornos","A conformação a quente aumenta o encruamento","Não há diferença"],e:"A quente, o metal recristaliza durante a deformação, o que requer menos força e evita endurecimento.",n:3},
+{q:"Na manufatura aditiva de metais por fusão seletiva a laser (SLM), como a peça é construída?",o:["Camadas de pó metálico são fundidas pelo laser conforme a geometria","Metal fundido é vazado em um molde","Uma barra é usinada por fresas","Chapas são soldadas em sequência"],e:"Permite canais internos e estruturas leves, mas exige tratamento térmico e acabamento superficial.",n:3},
+{q:"Em GD&T, o que a tolerância de planicidade controla?",o:["Que a superfície esteja entre dois planos paralelos separados pelo valor da tolerância","A distância entre dois furos","O diâmetro de um furo","O ângulo entre duas superfícies"],e:"Ela não exige referência (datum). A perpendicularidade e o paralelismo, ao contrário, dependem de um datum.",n:3}
+],
+calor:[
+{q:"Qual lei descreve a condução de calor em função do gradiente de temperatura?",o:["Lei de Fourier","Lei de Newton do resfriamento","Lei de Stefan-Boltzmann","Lei de Ohm"],e:"q = −k·A·dT/dx: o fluxo de calor é proporcional ao gradiente de temperatura e à condutividade térmica k.",n:1},
+{q:"Qual é a unidade da condutividade térmica no SI?",o:["W/(m·K)","W/m²","J/(kg·K)","K/W"],e:"Ela indica quantos watts passam por metro de material para cada kelvin de diferença.",n:1},
+{q:"Qual destes materiais tem a maior condutividade térmica?",o:["Cobre","Aço inoxidável","Madeira","Ar"],e:"O cobre conduz cerca de 400 W/(m·K). O ar, apenas cerca de 0,026.",n:1},
+{q:"Para que servem as aletas em um dissipador ou trocador de calor?",o:["Aumentar a área de troca de calor","Reduzir a velocidade do fluido","Isolar termicamente a superfície","Aumentar a pressão interna"],e:"Mais área superficial significa mais calor trocado por convecção.",n:1},
+{q:"O que a Lei de Stefan-Boltzmann relaciona?",o:["A potência emitida por radiação com a quarta potência da temperatura absoluta","A condução com o gradiente de temperatura","O coeficiente de convecção com o número de Reynolds","A temperatura com a pressão de um gás"],e:"q = ε·σ·A·T⁴. Dobrar a temperatura absoluta multiplica a emissão por 16.",n:2},
+{q:"O número de Nusselt representa...",o:["a razão entre a transferência de calor por convecção e por condução no fluido","a razão entre forças de inércia e viscosas","a razão entre as difusividades de momento e térmica","a razão entre empuxo e forças viscosas"],e:"Nu = h·L/k. Valores altos indicam convecção muito mais intensa que a condução.",n:2},
+{q:"Em uma parede composta por duas camadas empilhadas na direção do fluxo de calor, as resistências térmicas estão associadas como...",o:["Série: as resistências se somam","Paralelo: somam-se as inversas","Série: multiplicam-se as resistências","Paralelo: a menor resistência prevalece"],e:"R_total = L1/(k1·A) + L2/(k2·A), como em resistores em série.",n:2},
+{q:"Qual é a diferença entre convecção natural e convecção forçada?",o:["Na natural o movimento vem de diferenças de densidade; na forçada, de ventilador ou bomba","Na natural há mudança de fase; na forçada, não","A natural só ocorre em líquidos","A forçada só ocorre em gases"],e:"O ar quente subindo sobre um radiador é natural. O ventilador de um computador gera convecção forçada.",n:2},
+{q:"O que é o raio crítico de isolamento de um tubo e qual é o seu valor?",o:["k/h: abaixo dele, adicionar isolante aumenta a perda de calor","h/k: acima dele, o isolante deixa de funcionar","2k/h: o raio em que a superfície atinge a temperatura ambiente","k·h: o raio em que a condensação começa"],e:"r_crít = k/h. Para raios externos menores que ele, o isolante aumenta a área de convecção mais do que a resistência de condução.",n:3},
+{q:"Para as mesmas temperaturas de entrada e saída, qual arranjo de trocador de calor tem a maior diferença média logarítmica de temperatura (LMTD)?",o:["Contracorrente","Correntes paralelas","São idênticos","Depende só da vazão"],e:"O arranjo em contracorrente troca mais calor com a mesma área e por isso é o mais usado.",n:3},
+{q:"Um número de Biot baixo (Bi = h·L/k) indica que...",o:["a resistência interna de condução é desprezível e a temperatura do sólido é quase uniforme","a convecção é muito menor que a radiação","o escoamento é turbulento","o sólido é um isolante perfeito"],e:"Com Bi menor que cerca de 0,1 vale o modelo de capacitância concentrada.",n:3},
+{q:"Qual é o número de Nusselt de uma esfera em um meio infinito e estagnado, no limite de condução pura?",o:["2","1","0","π"],e:"Nu = h·D/k = 2, pois só há condução no meio.",n:3},
+{q:"Quais são os três modos de transferência de calor?",o:["Condução, convecção e radiação","Condução, fusão e vaporização","Convecção, sublimação e radiação","Compressão, expansão e radiação"],e:"Na prática, os três costumam ocorrer ao mesmo tempo.",n:1},
+{q:"A condução de calor ocorre principalmente em...",o:["sólidos, sobretudo metais","vácuo","apenas gases em movimento","apenas líquidos em ebulição"],e:"Também ocorre em fluidos em repouso, mas é muito mais intensa nos sólidos.",n:1},
+{q:"O que caracteriza a convecção?",o:["O transporte de calor pelo movimento de um fluido","O transporte de calor por ondas eletromagnéticas","A passagem de calor entre átomos vizinhos de um sólido","A transmissão de calor no vácuo"],e:"A convecção combina a condução no fluido e o transporte pela sua movimentação.",n:1},
+{q:"Por que a garrafa térmica tem vácuo entre as paredes?",o:["Para eliminar a condução e a convecção entre elas","Para aumentar a radiação","Para aquecer o líquido","Para reduzir o peso apenas"],e:"As superfícies internas espelhadas ainda reduzem a troca por radiação.",n:1},
+{q:"Qual superfície absorve mais radiação solar?",o:["Preta fosca","Branca","Espelhada","Transparente"],e:"Por isso coletores solares são escuros e telhados brancos reduzem o aquecimento.",n:1},
+{q:"O que é um bom isolante térmico?",o:["Material de baixa condutividade térmica","Material de alta condutividade térmica","Qualquer metal","Qualquer material denso"],e:"Espumas, lãs minerais e o ar parado são exemplos.",n:1},
+{q:"O que faz um trocador de calor?",o:["Transfere calor entre dois fluidos sem misturá-los","Mistura dois fluidos para igualar a temperatura","Gera calor por reação química","Produz eletricidade"],e:"Os tipos mais comuns são os de casco e tubos e os de placas.",n:1},
+{q:"Qual é a função do radiador de um carro?",o:["Dissipar para o ar o calor do líquido de arrefecimento","Aquecer o óleo do motor","Aumentar a pressão do combustível","Filtrar o ar de admissão"],e:"O líquido quente passa por tubos aletados, e o ar, forçado pelo movimento ou pela ventoinha, retira o calor.",n:1},
+{q:"Qual é a unidade do fluxo de calor (por unidade de área) no SI?",o:["W/m²","W/K","J/kg","K/m²"],e:"É a potência térmica que atravessa cada metro quadrado.",n:1},
+{q:"Qual é a unidade do coeficiente de transferência de calor por convecção, h?",o:["W/(m²·K)","W/(m·K)","J/(kg·K)","m²/s"],e:"O coeficiente indica quantos watts passam por metro quadrado para cada kelvin de diferença entre a superfície e o fluido.",n:1},
+{q:"Em que sentido o calor flui espontaneamente?",o:["Do corpo de maior para o de menor temperatura","Do corpo de menor para o de maior temperatura","Do corpo de maior massa para o de menor massa","Do corpo menos denso para o mais denso"],e:"É a Segunda Lei da Termodinâmica em ação.",n:1},
+{q:"O que afirma a lei de Newton do resfriamento?",o:["A taxa de calor por convecção é proporcional à diferença entre as temperaturas da superfície e do fluido","A taxa de calor é proporcional ao quadrado da temperatura","A taxa de calor depende apenas da massa do corpo","A taxa de calor é proporcional à quarta potência da temperatura"],e:"q = h·A·(Ts − T∞).",n:1},
+{q:"Por que janelas de vidro duplo isolam melhor que as de vidro simples?",o:["A camada de ar ou gás entre os vidros tem baixa condutividade","O vidro duplo é mais pesado","O vidro duplo reflete todo o calor","O vidro duplo impede a passagem de luz"],e:"A lâmina de ar parado entre os vidros reduz muito a condução.",n:1},
+{q:"Por que um piso de cerâmica parece mais frio ao toque que um tapete, na mesma temperatura?",o:["A cerâmica conduz calor para fora do pé mais depressa","A cerâmica está a uma temperatura menor","O tapete gera calor","A cerâmica emite frio"],e:"A sensação de frio depende da taxa com que o material retira calor da pele.",n:1},
+{q:"O que acontece quando dois corpos a temperaturas diferentes são postos em contato e isolados do ambiente?",o:["Chegam à mesma temperatura, o equilíbrio térmico","O mais quente esquenta ainda mais","Nenhum deles muda de temperatura","O mais frio esfria ainda mais"],e:"Esse é o princípio da Lei Zero da Termodinâmica.",n:1},
+{q:"Uma parede com k = 0,5 W/(m·K), área de 10 m² e espessura de 0,2 m tem diferença de temperatura de 20 K entre as faces. Qual é a taxa de calor por condução?",o:["500 W","50 W","5.000 W","10 W"],e:"q = k·A·ΔT/L = 0,5·10·20/0,2 = 500 W.",n:2},
+{q:"Qual é a resistência térmica de condução de uma parede plana?",o:["R = L/(k·A)","R = k·A/L","R = 1/(h·A)","R = L·k·A"],e:"Quanto mais espessa a parede e menor a condutividade, maior a resistência.",n:2},
+{q:"Qual é a resistência térmica de convecção em uma superfície?",o:["R = 1/(h·A)","R = h·A","R = L/(k·A)","R = A/h"],e:"Em associação em série, soma-se à resistência de condução da parede.",n:2},
+{q:"Como se obtém o coeficiente global de transferência de calor U de uma parede com camadas e convecção nas duas faces?",o:["Somando as resistências térmicas em série: 1/(U·A) = ΣR","Somando os coeficientes h","Multiplicando as condutividades","Usando apenas o menor k"],e:"Assim como a resistência equivalente de resistores em série.",n:2},
+{q:"O que o número de Prandtl compara?",o:["A difusão de quantidade de movimento e a difusão térmica","Forças de inércia e forças viscosas","Convecção e condução em um sólido","Empuxo e forças viscosas"],e:"Pr = ν/α. Vale cerca de 0,7 para o ar, 7 para a água e centenas ou milhares para óleos.",n:2},
+{q:"Qual é a definição de difusividade térmica?",o:["α = k/(ρ·cp)","α = k·ρ·cp","α = ρ/(k·cp)","α = cp/k"],e:"Mede a rapidez com que a temperatura se propaga no material.",n:2},
+{q:"O que é emissividade?",o:["A razão entre a radiação emitida por uma superfície e a de um corpo negro à mesma temperatura","A fração da radiação que é refletida","A temperatura da superfície","A condutividade da superfície"],e:"Varia de 0 a 1. Superfícies polidas têm baixa emissividade, e as foscas escuras, alta.",n:2},
+{q:"O que a lei de Kirchhoff estabelece para superfícies em equilíbrio térmico?",o:["A emissividade é igual à absortividade","A emissividade é igual à refletividade","A absortividade é sempre zero","A transmissividade é sempre 1"],e:"Vale para a mesma temperatura e comprimento de onda. Bons absorvedores são bons emissores.",n:2},
+{q:"Qual é a característica de um corpo negro?",o:["Absorve toda a radiação incidente e emite o máximo possível a cada temperatura","Reflete toda a radiação incidente","Não emite radiação","Emite apenas luz visível"],e:"É um modelo ideal, aproximado por uma cavidade com um pequeno furo.",n:2},
+{q:"O que é o fator de forma F12 na radiação entre superfícies?",o:["A fração da radiação que deixa a superfície 1 e atinge diretamente a superfície 2","A temperatura média entre as superfícies","A emissividade média das superfícies","A área total das superfícies"],e:"Depende apenas da geometria e da orientação relativa das superfícies.",n:2},
+{q:"O que é a efetividade de um trocador de calor?",o:["A razão entre o calor realmente trocado e o máximo possível","A razão entre as áreas de troca","A razão entre as vazões","O rendimento da bomba"],e:"Varia entre 0 e 1 e é a base do método ε-NTU.",n:2},
+{q:"O que é o NTU em trocadores de calor?",o:["O número de unidades de transferência, U·A/Cmin","O número total de tubos","O nível de temperatura útil","O número de Nusselt do tubo"],e:"É usado no método ε-NTU, quando as temperaturas de saída são desconhecidas.",n:2},
+{q:"Como varia a temperatura com o tempo em um corpo que esfria com resistência interna desprezível (capacitância concentrada)?",o:["De forma exponencial, com constante de tempo τ = ρ·V·cp/(h·A)","De forma linear","De forma senoidal","Permanece constante"],e:"Uma esfera metálica pequena em um ambiente frio é um exemplo.",n:2},
+{q:"O que acontece com o coeficiente h quando o escoamento passa de laminar para turbulento?",o:["Aumenta bastante","Diminui","Fica igual a zero","Fica igual a k"],e:"A mistura turbulenta transporta calor de forma muito mais eficiente que a difusão molecular.",n:2},
+{q:"Por que a ebulição nucleada tem coeficientes de transferência de calor tão altos?",o:["A formação e o desprendimento de bolhas agitam o líquido junto à parede e transportam calor latente","Porque o líquido não troca calor","Porque a parede fica isolada","Porque há apenas radiação"],e:"Por isso a ebulição é usada em caldeiras e evaporadores.",n:2},
+{q:"Qual é a taxa de calor por condução radial permanente em uma parede cilíndrica de comprimento L?",o:["q = 2π·k·L·(T1 − T2)/ln(r2/r1)","q = k·A·ΔT/L","q = 2π·k·L·(T1 − T2)·(r2 − r1)","q = h·A·ΔT"],e:"A área de troca cresce com o raio, e por isso o perfil de temperatura é logarítmico.",n:3},
+{q:"O que é a eficiência de uma aleta?",o:["A razão entre o calor realmente dissipado e o que seria se toda a aleta estivesse na temperatura da base","A razão entre a massa da aleta e a da base","A temperatura da ponta da aleta","O número de aletas por metro"],e:"É sempre menor que 1. Aletas longas, finas e de material pouco condutor têm eficiência baixa.",n:3},
+{q:"Qual número adimensional é fundamental na convecção natural e relaciona empuxo e forças viscosas?",o:["Grashof (e Rayleigh = Gr·Pr)","Reynolds","Mach","Biot"],e:"A transição para o regime turbulento na convecção natural é função do número de Rayleigh.",n:3},
+{q:"Qual correlação clássica fornece o Nusselt para escoamento turbulento plenamente desenvolvido em tubos?",o:["Dittus-Boelter: Nu = 0,023·Re^0,8·Pr^n","Fourier","Hagen-Poiseuille","Stefan-Boltzmann"],e:"Usa n = 0,4 para aquecimento do fluido e n = 0,3 para resfriamento.",n:3},
+{q:"Qual é o Nusselt em escoamento laminar plenamente desenvolvido em tubo circular com temperatura de parede constante?",o:["3,66","0,023","64","100"],e:"Com fluxo de calor constante, vale 4,36. Em ambos os casos, independe do Reynolds.",n:3},
+{q:"O que é o fluxo crítico de calor na ebulição?",o:["O limite em que o vapor passa a cobrir a superfície, a transferência de calor cai e a temperatura da parede dispara","O fluxo mínimo para iniciar a ebulição","O fluxo de calor por radiação","A temperatura de saturação do líquido"],e:"Em aquecedores com fluxo imposto, pode causar a queima (burnout) da superfície.",n:3},
+{q:"O que afirma a lei do deslocamento de Wien?",o:["O comprimento de onda de máxima emissão é inversamente proporcional à temperatura: λmax·T ≈ 2.898 μm·K","A emissão total é proporcional a T⁴","A energia da radiação é quantizada","A emissividade independe da temperatura"],e:"O Sol, a cerca de 5.800 K, tem o pico de emissão perto de 0,5 μm, na luz visível.",n:3},
+{q:"Para fluidos com Pr maior que 1, como a água, como se compara a camada limite térmica com a hidrodinâmica?",o:["A térmica é mais fina","A térmica é mais espessa","São iguais","A térmica não existe"],e:"Pr alto significa que a quantidade de movimento difunde mais que o calor.",n:3},
+{q:"Qual é a equação da condução de calor transiente unidimensional, sem geração?",o:["∂T/∂t = α·∂²T/∂x²","∂T/∂x = α·∂²T/∂t²","T = α·x","∂T/∂t = k·∂T/∂x"],e:"É a equação do calor, ou equação de Fourier.",n:3},
+{q:"O que é o número de Fourier (Fo = α·t/L²)?",o:["Um tempo adimensional da condução transiente","A razão entre convecção e condução","A razão entre inércia e viscosidade","A razão entre emissão e absorção"],e:"Fo maior que cerca de 0,2 permite usar aproximações de um só termo para a solução em série.",n:3},
+{q:"O que é a resistência térmica de contato?",o:["A resistência adicional ao fluxo de calor na interface de dois sólidos em contato imperfeito","A resistência elétrica de um fio","A resistência da convecção em um tubo","O isolamento de um forno"],e:"Pastas térmicas reduzem essa resistência entre um chip e seu dissipador.",n:3},
+{q:"Qual efeito radiativo contribui para o aquecimento dentro de uma estufa de vidro?",o:["O vidro transmite a radiação solar de onda curta e é quase opaco ao infravermelho de onda longa emitido no interior","O vidro reflete toda a radiação solar","O vidro emite radiação ultravioleta","O vidro absorve toda a luz visível"],e:"A radiação infravermelha fica retida, e a estrutura também impede a convecção com o ar externo.",n:3},
+{q:"Em um trocador em contracorrente com razão de capacidades térmicas Cr = 1, qual é a efetividade em função do NTU?",o:["ε = NTU/(1 + NTU)","ε = 1 − e^(−NTU)","ε = NTU²","ε = 1/NTU"],e:"Com NTU = 1, a efetividade é de 50%, e com NTU = 3, de 75%.",n:3},
+{q:"Qual é a troca líquida de radiação por área entre duas placas paralelas grandes, com emissividades ε1 e ε2 e temperaturas T1 e T2?",o:["q = σ·(T1⁴ − T2⁴)/(1/ε1 + 1/ε2 − 1)","q = σ·(T1 − T2)/(ε1·ε2)","q = ε1·ε2·σ·(T1² − T2²)","q = k·(T1 − T2)"],e:"Se as duas forem corpos negros (ε = 1), a expressão se reduz a σ·(T1⁴ − T2⁴).",n:3}
+],
+vibr:[
+{q:"Qual é a unidade de frequência no SI?",o:["Hertz (Hz)","Radiano (rad)","Newton (N)","Segundo (s)"],e:"1 Hz equivale a 1 ciclo por segundo.",n:1},
+{q:"O que é ressonância?",o:["Quando a frequência de excitação se aproxima da frequência natural e a amplitude cresce muito","Quando um sistema para de vibrar","Quando a massa do sistema dobra","Quando o amortecimento é infinito"],e:"Pequenas excitações geram grandes deslocamentos, por isso as máquinas evitam operar na frequência natural.",n:1},
+{q:"Em um sistema massa-mola, aumentar a rigidez da mola faz a frequência natural...",o:["aumentar","diminuir","permanecer igual","tornar-se zero"],e:"ωn = √(k/m): mais rigidez, maior frequência.",n:1},
+{q:"Qual componente dissipa energia de vibração na suspensão de um veículo?",o:["Amortecedor","Mola helicoidal","Barra estabilizadora","Cubo de roda"],e:"A mola armazena energia; o amortecedor a dissipa, evitando que o carro fique oscilando.",n:1},
+{q:"Um sistema massa-mola tem m = 4 kg e k = 100 N/m. Qual é a frequência natural em rad/s?",o:["5","25","10","0,2"],e:"ωn = √(k/m) = √(100/4) = 5 rad/s, ou cerca de 0,8 Hz.",n:2},
+{q:"Em um sistema subamortecido, o fator de amortecimento ζ é...",o:["menor que 1","igual a 1","maior que 1","sempre negativo"],e:"Com ζ menor que 1 a resposta oscila com amplitude decrescente. Com ζ = 1 o amortecimento é crítico.",n:2},
+{q:"Para que serve o balanceamento de um rotor?",o:["Reduzir as forças centrífugas desbalanceadas e a vibração resultante","Aumentar a rigidez do eixo","Reduzir a velocidade crítica","Diminuir o atrito nos mancais"],e:"Massas desbalanceadas giram e geram uma força que cresce com o quadrado da rotação.",n:2},
+{q:"Quantos graus de liberdade tem um sistema de duas massas, cada uma livre para se mover em uma única direção?",o:["2","1","4","Infinitos"],e:"Cada massa com movimento independente contribui com 1 grau de liberdade.",n:2},
+{q:"O que é a velocidade crítica de um eixo?",o:["A rotação que coincide com a frequência natural de flexão do eixo","A rotação máxima do motor","A rotação em que o eixo plastifica","A rotação em que o amortecimento é nulo"],e:"Operar perto dela causa grandes amplitudes. Rotores flexíveis a atravessam rapidamente na partida.",n:3},
+{q:"Um isolador de vibração só reduz a força transmitida quando a razão de frequências ω/ωn é maior que...",o:["√2","1","2","0,5"],e:"Abaixo de √2 (cerca de 1,41) o isolador amplifica a vibração. Por isso ele precisa de frequência natural bem baixa.",n:3},
+{q:"O decremento logarítmico é usado para estimar...",o:["o amortecimento a partir de picos sucessivos da vibração livre","a frequência natural da vibração forçada","a rigidez de uma viga","a massa efetiva de um rotor"],e:"δ = ln(x1/x2). Para amortecimento baixo, ζ ≈ δ/(2π).",n:3},
+{q:"Em um sistema de 1 grau de liberdade com amortecimento viscoso, a frequência natural amortecida ωd vale...",o:["ωn·√(1 − ζ²)","ωn·(1 − ζ)","ωn/√(1 − ζ²)","ωn·(1 + ζ²)"],e:"Com ζ pequeno, ωd é quase igual a ωn.",n:3},
+{q:"O que é vibração mecânica?",o:["Movimento oscilatório de um corpo em torno de uma posição de equilíbrio","Movimento retilíneo uniforme","Rotação completa constante","Queda livre"],e:"Pode ser desejada, como em um diapasão, ou indesejada, como em um motor desbalanceado.",n:1},
+{q:"O que é a amplitude de uma vibração?",o:["O deslocamento máximo em relação à posição de equilíbrio","O tempo de um ciclo","O número de ciclos por segundo","A massa do sistema"],e:"Pode ser medida em deslocamento, velocidade ou aceleração.",n:1},
+{q:"Como se relacionam o período T e a frequência f?",o:["T = 1/f","T = f","T = f²","T = 2π·f"],e:"Se a frequência é 50 Hz, o período é 0,02 s.",n:1},
+{q:"O que é a frequência natural de um sistema?",o:["A frequência com que ele vibra livremente depois de ser perturbado","A frequência da força externa","A frequência da rede elétrica","A rotação do motor"],e:"Ela depende apenas da massa, da rigidez e da geometria do sistema.",n:1},
+{q:"Qual é a diferença entre vibração livre e vibração forçada?",o:["Na livre não há excitação contínua, e na forçada uma força externa atua continuamente","A livre ocorre só em líquidos","A forçada ocorre sem energia","São a mesma coisa"],e:"Um sino batido uma vez vibra livremente. Uma máquina desbalanceada vibra de forma forçada.",n:1},
+{q:"Qual é uma causa comum de vibração em máquinas rotativas?",o:["Desbalanceamento do rotor","Excesso de lubrificante","A cor da tinta","Temperatura baixa do ar"],e:"Uma massa desigual em torno do eixo gera força centrífuga que gira junto com o rotor.",n:1},
+{q:"O que o desalinhamento entre eixos acoplados costuma provocar?",o:["Vibração, aquecimento e desgaste em mancais e acoplamentos","Redução da vibração","Aumento do rendimento","Nenhum efeito"],e:"Muitas vezes aparece no espectro em 2 vezes a frequência de rotação.",n:1},
+{q:"Qual sensor é mais usado para medir vibração em máquinas?",o:["Acelerômetro","Termopar","Manômetro","Anemômetro"],e:"Acelerômetros piezoelétricos são pequenos, robustos e cobrem uma ampla faixa de frequência.",n:1},
+{q:"O que é amortecimento?",o:["A dissipação de energia de vibração, geralmente na forma de calor","O aumento da energia de vibração","O aumento da frequência natural","A rigidez da mola"],e:"Sem amortecimento, uma vibração livre nunca cessaria.",n:1},
+{q:"Qual é a unidade da rigidez de uma mola no SI?",o:["N/m","N·m","kg/s","Hz"],e:"k = F/x: a força necessária por metro de deslocamento.",n:1},
+{q:"O que acontece com a frequência natural de um sistema massa-mola se a massa aumentar?",o:["Diminui","Aumenta","Não muda","Torna-se infinita"],e:"ωn = √(k/m): sistemas mais pesados vibram mais devagar.",n:1},
+{q:"De que depende o período de um pêndulo simples em pequenas oscilações?",o:["Do comprimento do fio e da gravidade, não da massa","Apenas da massa","Da massa e da amplitude","Da cor do pêndulo"],e:"T = 2π·√(L/g).",n:1},
+{q:"Qual é um efeito prejudicial da vibração excessiva em máquinas e estruturas?",o:["Fadiga, desgaste, ruído e falhas","Aumento da vida útil","Redução do ruído","Melhora do acabamento"],e:"Os ciclos repetidos de tensão nucleiam e propagam trincas de fadiga.",n:1},
+{q:"Para que serve um absorvedor dinâmico de vibração (massa sintonizada)?",o:["Reduzir a vibração de uma estrutura na frequência em que está sintonizado","Aumentar a vibração da estrutura","Medir a velocidade do vento","Gerar calor"],e:"Grandes edifícios, como o Taipei 101, têm um pêndulo gigante com essa função.",n:1},
+{q:"Para que serve a análise de vibração na manutenção preditiva?",o:["Detectar falhas como desbalanceamento, desalinhamento e defeitos em rolamentos antes da quebra","Medir apenas a temperatura","Trocar o óleo automaticamente","Pintar as máquinas"],e:"Cada defeito deixa uma assinatura característica no espectro de vibração.",n:1},
+{q:"Um sistema tem frequência natural ωn = 62,8 rad/s. Qual é sua frequência em Hz?",o:["10 Hz","62,8 Hz","1 Hz","394 Hz"],e:"f = ωn/2π ≈ 62,8/6,28 = 10 Hz.",n:2},
+{q:"Um sistema massa-mola tem m = 5 kg e k = 2.000 N/m. Qual é sua frequência natural em rad/s?",o:["20","400","40","2"],e:"ωn = √(k/m) = √(2.000/5) = √400 = 20 rad/s.",n:2},
+{q:"Qual é o período aproximado de um pêndulo simples de 1 m de comprimento?",o:["Cerca de 2 s","Cerca de 0,5 s","Cerca de 10 s","Cerca de 1 min"],e:"T = 2π·√(L/g) = 2π·√(1/9,81) ≈ 2,0 s.",n:2},
+{q:"Como se associam molas em paralelo e em série?",o:["Em paralelo, k = k1 + k2; em série, 1/k = 1/k1 + 1/k2","Em paralelo, 1/k = 1/k1 + 1/k2; em série, k = k1 + k2","Em ambos os casos, k = k1 + k2","Em ambos os casos, k = k1·k2"],e:"É o contrário do que acontece com resistores elétricos e capacitores.",n:2},
+{q:"Qual é o amortecimento crítico de um sistema massa-mola-amortecedor?",o:["cc = 2·√(k·m)","cc = k·m","cc = √(k/m)","cc = 2·k/m"],e:"O fator de amortecimento é ζ = c/cc.",n:2},
+{q:"Como é a resposta livre de um sistema superamortecido (ζ maior que 1)?",o:["Retorna ao equilíbrio lentamente, sem oscilar","Oscila com amplitude crescente","Oscila indefinidamente com amplitude constante","Nunca retorna ao equilíbrio"],e:"O amortecimento crítico (ζ = 1) é o que retorna ao equilíbrio mais depressa sem oscilar.",n:2},
+{q:"Em uma vibração forçada na frequência natural, o que limita a amplitude em um sistema real?",o:["O amortecimento","A massa apenas","A rigidez apenas","Nada limita, a amplitude é infinita"],e:"Sem amortecimento, a amplitude cresceria sem limite. Com amortecimento, fica limitada.",n:2},
+{q:"Qual é o fator de amplificação dinâmica aproximado na ressonância para um ζ pequeno?",o:["1/(2ζ)","2ζ","ζ²","1 + ζ"],e:"Para ζ = 0,05, a amplitude na ressonância é cerca de 10 vezes a deflexão estática.",n:2},
+{q:"O que faz a transformada rápida de Fourier (FFT) na análise de vibrações?",o:["Converte o sinal no tempo em um espectro de frequências","Converte o espectro de frequências em sinal no tempo","Elimina todo o ruído do sinal","Mede a temperatura do equipamento"],e:"Cada pico do espectro pode ser associado a uma fonte de vibração.",n:2},
+{q:"Em um espectro de vibração, em que frequência aparece predominantemente o desbalanceamento?",o:["1X, a frequência de rotação","10X, dez vezes a rotação","0,1X, um décimo da rotação","Em nenhuma frequência"],e:"A força de desbalanceamento gira junto com o rotor.",n:2},
+{q:"O que indicam frequências como BPFO e BPFI no espectro de vibração?",o:["Defeitos nas pistas externa e interna de rolamentos","Desbalanceamento do rotor","Folga em um acoplamento","Temperatura excessiva"],e:"São frequências características calculadas a partir da geometria do rolamento e da rotação.",n:2},
+{q:"O que é um modo de vibração?",o:["A forma característica de deslocamento da estrutura quando vibra em uma de suas frequências naturais","O número de ciclos por segundo","A massa efetiva da estrutura","A direção do vento"],e:"Cada frequência natural está associada a uma forma modal, ou modo.",n:2},
+{q:"Quantas frequências naturais tem um sistema discreto linear com n graus de liberdade?",o:["n","1","2n","Infinitas"],e:"Sistemas contínuos, como vigas, têm infinitas frequências naturais.",n:2},
+{q:"O que é a vibração torcional?",o:["Oscilação angular de um eixo ou sistema de inércias ligadas por elementos torcionais","Oscilação lateral de um eixo","Oscilação axial de um pistão","Vibração em líquidos"],e:"Em motores de combustão e linhas de eixo, pode ser perigosa em certas rotações críticas.",n:2},
+{q:"Por que se usam coxins de borracha sob motores?",o:["Para isolar a vibração e reduzir a força transmitida à fundação","Para aumentar a rigidez da fixação","Para aquecer o motor","Para fixar o motor com mais força"],e:"Funcionam bem quando a frequência de excitação está bem acima da frequência natural do conjunto.",n:2},
+{q:"Qual é a equação do movimento de um sistema de 1 grau de liberdade com amortecimento viscoso e força F(t)?",o:["m·x'' + c·x' + k·x = F(t)","m·x' + c·x = F(t)","x'' + k = F(t)","m·x + c·x' = F(t)"],e:"É a segunda lei de Newton para massa, amortecedor e mola, com x'' sendo a aceleração e x', a velocidade.",n:3},
+{q:"Qual é a força gerada por uma massa desbalanceada m, com excentricidade e e rotação ω?",o:["F = m·e·ω²","F = m·e·ω","F = m·e/ω²","F = m·ω²"],e:"Dobrar a rotação quadruplica a força de desbalanceamento.",n:3},
+{q:"Como se expressa a transmissibilidade de um isolador em função da razão de frequências r e do fator de amortecimento ζ?",o:["T = √[(1 + (2ζr)²)/((1 − r²)² + (2ζr)²)]","T = r/ζ","T = 1 − r²","T = 1/(2ζ)"],e:"Para r maior que √2, T é menor que 1, e o isolador reduz a força transmitida.",n:3},
+{q:"Para que serve o método de Rayleigh?",o:["Estimar a frequência natural fundamental igualando as energias cinética e potencial máximas","Calcular a vida em fadiga","Medir o amortecimento","Balancear rotores"],e:"O resultado é sempre um limite superior da frequência fundamental real.",n:3},
+{q:"Se o comprimento de uma viga biapoiada dobra, o que ocorre com sua primeira frequência natural de flexão?",o:["Cai a um quarto","Cai à metade","Dobra","Quadruplica"],e:"Para vigas, fn é proporcional a 1/L².",n:3},
+{q:"O que significa a ortogonalidade dos modos de vibração?",o:["As matrizes de massa e rigidez se diagonalizam nas coordenadas modais, desacoplando as equações","Todos os modos têm a mesma frequência","Os modos dependem do sentido da força","Os modos trocam energia entre si"],e:"Permite analisar um sistema complexo como uma soma de sistemas de 1 grau de liberdade.",n:3},
+{q:"O que é a função de resposta em frequência (FRF) em análise modal experimental?",o:["A razão entre a resposta e a força de excitação em função da frequência","A frequência de rotação da máquina","O espectro do ruído ambiente","A razão entre massa e rigidez"],e:"Medida com martelo de impacto ou excitador, permite identificar frequências naturais, modos e amortecimento.",n:3},
+{q:"O que é o fenômeno de batimento (beating)?",o:["A variação periódica da amplitude resultante da soma de duas vibrações de frequências próximas","O aumento infinito da amplitude em ressonância","A parada completa do sistema","A queda da frequência natural"],e:"A frequência do batimento é a diferença entre as duas frequências somadas.",n:3},
+{q:"O que é o oil whirl em mancais de deslizamento?",o:["Uma instabilidade subsíncrona em que o eixo precessa com cerca de 0,42 a 0,48 vez a rotação","Uma vibração em 2 vezes a rotação","Um vazamento de óleo no mancal","O desbalanceamento do rotor"],e:"É causado pelo filme de óleo e se agrava com o aumento da rotação. Pode evoluir para oil whip.",n:3},
+{q:"O que é o flutter aeroelástico?",o:["Uma instabilidade dinâmica em que forças aerodinâmicas e elasticidade da estrutura se acoplam e a vibração cresce","A queda de pressão em uma asa","O ruído de turbinas","O desbalanceamento de hélices"],e:"Asas, pás de turbinas e pontes suspensas precisam ser projetadas para ficar longe dessa condição.",n:3},
+{q:"Em que frequência deve ser sintonizado um absorvedor dinâmico de vibração?",o:["Na frequência da excitação ou da ressonância a ser atenuada","Em dez vezes a frequência da excitação","Em zero","Em qualquer frequência, tanto faz"],e:"O absorvedor cria uma antirressonância no ponto de sintonia, mas introduz duas novas frequências naturais.",n:3},
+{q:"Qual grandeza a norma ISO 10816 (hoje ISO 20816) usa para avaliar a severidade da vibração de máquinas?",o:["O valor RMS da velocidade de vibração","A temperatura do mancal","A pressão do óleo","O torque do motor"],e:"A velocidade RMS está relacionada à energia da vibração em uma faixa ampla de frequências.",n:3},
+{q:"No amortecimento histerético (estrutural), a energia dissipada por ciclo...",o:["É independente da frequência","É proporcional à frequência","É nula","É proporcional ao quadrado da frequência"],e:"No amortecimento viscoso, a energia dissipada por ciclo é proporcional à frequência.",n:3},
+{q:"O que mostra o diagrama de Campbell de um rotor?",o:["As frequências naturais e as ordens de excitação em função da rotação, identificando as velocidades críticas","O consumo de energia em função da rotação","A temperatura em função do tempo","O torque em função da rotação"],e:"Os cruzamentos entre as frequências naturais e as retas de excitação indicam onde pode ocorrer ressonância.",n:3}
+],
+ctrl:[
+{q:"Em um sistema de controle em malha fechada, o que é a realimentação?",o:["Medir a saída e compará-la com a referência para corrigir o erro","Aumentar a entrada sem medir a saída","Desligar o sistema ao atingir a referência","Eliminar o sensor"],e:"Um termostato mede a temperatura e liga ou desliga o aquecedor para manter a referência.",n:1},
+{q:"O que significa a sigla PID?",o:["Proporcional, Integral e Derivativo","Pressão, Inércia e Deslocamento","Potência, Intensidade e Direção","Posição, Impulso e Desvio"],e:"É o controlador mais usado na indústria, combinando três ações sobre o erro.",n:1},
+{q:"Qual elemento mede a variável controlada e a envia ao controlador?",o:["Sensor","Atuador","Planta","Referência"],e:"O atuador executa a ação (válvula, motor) e a planta é o processo controlado.",n:1},
+{q:"Uma função de transferência relaciona...",o:["a saída com a entrada de um sistema, no domínio de Laplace","a massa com a rigidez","a potência com a frequência","o erro com a temperatura"],e:"G(s) = Y(s)/U(s), com condições iniciais nulas.",n:1},
+{q:"Qual ação do PID elimina o erro em regime permanente para uma entrada degrau?",o:["Integral","Proporcional","Derivativa","Nenhuma delas"],e:"A integral acumula o erro até zerá-lo, mas pode piorar a estabilidade e causar overshoot.",n:2},
+{q:"O que a ação derivativa faz em um controlador PID?",o:["Antecipa a tendência do erro e amortece a resposta","Elimina o erro estacionário","Aumenta o ganho estático","Substitui o sensor"],e:"Ela reage à taxa de variação do erro e é sensível a ruído de medição.",n:2},
+{q:"Um sistema linear é estável quando seus polos estão...",o:["no semiplano esquerdo do plano s","no semiplano direito","sobre o eixo real positivo","na origem"],e:"Polos com parte real negativa fazem as respostas naturais decaírem.",n:2},
+{q:"O que é o overshoot (ultrapassagem percentual) de uma resposta ao degrau?",o:["O quanto a resposta ultrapassa o valor final desejado","O tempo para atingir o valor final","O erro em regime permanente","A frequência de oscilação"],e:"Quanto menor o amortecimento ζ, maior o overshoot.",n:2},
+{q:"Um sistema de primeira ordem G(s) = 1/(τs + 1) recebe um degrau. Em t = τ, a saída atinge cerca de que fração do valor final?",o:["63%","37%","86%","95%"],e:"1 − e⁻¹ ≈ 0,632. Em 4τ a saída chega a cerca de 98%.",n:3},
+{q:"Qual critério determina a estabilidade a partir dos coeficientes do polinômio característico, sem calcular as raízes?",o:["Routh-Hurwitz","Nyquist","Bode","Ziegler-Nichols"],e:"O sistema é estável se não houver mudança de sinal na primeira coluna da tabela de Routh.",n:3},
+{q:"Na resposta em frequência, a margem de fase mede...",o:["quanta fase adicional o sistema suporta no cruzamento de ganho antes de ficar instável","o ganho em baixas frequências","a largura de banda do sistema","o tempo de subida"],e:"Uma margem de fase entre 45° e 60° costuma ser um bom compromisso entre velocidade e estabilidade.",n:3},
+{q:"O método de Ziegler-Nichols é usado para...",o:["sintonizar os ganhos de um controlador PID","calcular a transformada de Laplace","linearizar sistemas não lineares","projetar filtros digitais"],e:"Baseia-se na resposta ao degrau ou no ganho crítico em que o sistema oscila continuamente.",n:3},
+{q:"O que é um sistema de controle em malha aberta?",o:["Aquele em que a saída não é medida nem usada para corrigir a entrada","Aquele que tem realimentação","Aquele que usa sempre um controlador PID","Aquele que é sempre digital"],e:"Uma torradeira com temporizador é um exemplo: ela não mede se o pão já torrou.",n:1},
+{q:"O que faz o atuador em um sistema de controle?",o:["Executa a ação sobre o processo, como abrir uma válvula ou girar um motor","Mede a variável controlada","Calcula o erro","Define a referência"],e:"É a ponte entre o controlador e o processo físico.",n:1},
+{q:"Qual é a função do controlador?",o:["Calcular a ação de controle a partir do erro entre a referência e a saída medida","Medir a variável controlada","Movimentar o processo","Fornecer energia ao sistema"],e:"Pode ser analógico, um PLC ou um software em microcontrolador.",n:1},
+{q:"Como se define o erro em um sistema de controle?",o:["A referência menos a saída medida","A saída mais a referência","A saída dividida pela referência","O ganho vezes a entrada"],e:"O controlador age para reduzir esse erro.",n:1},
+{q:"O que é uma perturbação em um sistema de controle?",o:["Um sinal externo indesejado que afeta a saída da planta","A referência desejada","O ganho do controlador","O sensor de medição"],e:"Em um forno, abrir a porta é uma perturbação que derruba a temperatura.",n:1},
+{q:"O que é o setpoint?",o:["O valor desejado para a variável controlada","O erro do sistema","A perturbação","O ruído do sensor"],e:"É o mesmo que referência ou valor de ajuste.",n:1},
+{q:"O que é a estabilidade de um sistema de controle?",o:["A capacidade de manter a saída limitada e voltar ao equilíbrio após uma perturbação","A rapidez da resposta","A precisão do sensor","O custo do controlador"],e:"É o requisito mínimo: um sistema instável é inútil, ou perigoso.",n:1},
+{q:"O que ocorre em um sistema instável?",o:["A saída cresce sem limite ou oscila com amplitude crescente","A saída se fixa na referência","O erro é reduzido a zero","A saída fica constante"],e:"Exemplos são o microfone que apita ao se aproximar do alto-falante e um pêndulo invertido sem controle.",n:1},
+{q:"O que costuma acontecer ao se aumentar muito o ganho proporcional?",o:["A resposta fica mais rápida, mas com mais oscilação e risco de instabilidade","A resposta fica sempre mais lenta","O erro some sem nenhum risco","Nada muda"],e:"Há um compromisso entre rapidez, amortecimento e estabilidade.",n:1},
+{q:"Para que serve um diagrama de blocos?",o:["Representar graficamente os componentes e os sinais de um sistema e suas relações","Calcular tensões em vigas","Desenhar peças mecânicas","Medir vazão de fluidos"],e:"É uma ferramenta de análise que permite combinar blocos em funções de transferência equivalentes.",n:1},
+{q:"Qual é um exemplo de sistema de controle em malha fechada em um carro?",o:["O piloto automático (cruise control)","A buzina","O farol de milha","O limpador de para-brisa manual"],e:"Ele mede a velocidade e ajusta o acelerador para mantê-la.",n:1},
+{q:"O que é um CLP (PLC)?",o:["Um controlador lógico programável, um computador industrial robusto para automação","Um tipo de motor elétrico","Um sensor de pressão","Uma válvula de controle"],e:"É muito usado em linhas de produção, com programação em ladder e outras linguagens da norma IEC 61131-3.",n:1},
+{q:"Qual sensor é muito usado para medir temperaturas em processos industriais?",o:["Termopar","Encoder","Extensômetro (strain gauge)","Tacômetro"],e:"Os termopares medem uma tensão que varia com a diferença de temperatura entre duas junções.",n:1},
+{q:"O que é o tempo de acomodação de uma resposta ao degrau?",o:["O tempo para a resposta entrar e permanecer em uma faixa próxima do valor final, como ±2%","O tempo até o início da resposta","O período da oscilação","O atraso puro do sistema"],e:"É uma medida da rapidez com que o sistema se estabiliza.",n:1},
+{q:"Como funciona um controle liga-desliga (on-off)?",o:["Liga ou desliga o atuador conforme a saída esteja abaixo ou acima do setpoint","Varia o atuador de forma contínua","Calcula a derivada do erro","Usa apenas a ação integral"],e:"O termostato de uma geladeira é assim, com uma histerese para evitar chaveamentos excessivos.",n:1},
+{q:"Para que serve a transformada de Laplace na análise de sistemas de controle?",o:["Transformar equações diferenciais lineares em equações algébricas","Medir sinais com sensores","Gerar ruído de teste","Calcular a energia de uma máquina"],e:"Permite definir funções de transferência e analisar polos e zeros.",n:2},
+{q:"O que são os polos de uma função de transferência?",o:["As raízes do denominador","As raízes do numerador","O ganho estático","O atraso de transporte"],e:"Eles determinam a estabilidade e a forma da resposta natural do sistema.",n:2},
+{q:"O que são os zeros de uma função de transferência?",o:["As raízes do numerador","As raízes do denominador","O erro estacionário","A margem de ganho"],e:"Eles influenciam a forma da resposta, como o overshoot, mas não a estabilidade.",n:2},
+{q:"Quais parâmetros caracterizam um sistema de segunda ordem padrão?",o:["A frequência natural ωn e o fator de amortecimento ζ","Apenas o ganho","Apenas a ordem","O atraso e o ruído"],e:"G(s) = ωn²/(s² + 2ζωn·s + ωn²).",n:2},
+{q:"O que é o tempo de subida de uma resposta ao degrau?",o:["O tempo para a saída ir de 10% a 90% do valor final","O tempo até o pico da resposta","O tempo do atraso de transporte","O tempo de acomodação"],e:"Mede a rapidez inicial da resposta, e não sua estabilização.",n:2},
+{q:"Qual é o erro estacionário a um degrau unitário em um sistema tipo 0 com constante de posição Kp?",o:["1/(1 + Kp)","0","Kp","1/Kp²"],e:"Para eliminar esse erro, inclui-se um integrador na malha, tornando o sistema tipo 1.",n:2},
+{q:"O que define o tipo de um sistema de controle?",o:["O número de integradores na função de transferência de malha aberta","A quantidade de sensores","A ordem do denominador","O número de zeros"],e:"O tipo determina o erro estacionário para entradas degrau, rampa e parábola.",n:2},
+{q:"Para que serve o lugar das raízes (root locus)?",o:["Mostrar como os polos de malha fechada se deslocam com a variação do ganho","Medir a vibração de um eixo","Desenhar o diagrama de blocos","Calcular apenas o erro estacionário"],e:"Ajuda a escolher o ganho que dá a resposta desejada e a ver quando o sistema fica instável.",n:2},
+{q:"O que mostra um diagrama de Bode?",o:["O módulo (em dB) e a fase da resposta em frequência em função da frequência","A resposta no tempo a um degrau","O mapa de polos e zeros","A curva do erro estacionário"],e:"É a base para analisar margens de estabilidade e a banda passante.",n:2},
+{q:"O que é a frequência de cruzamento de ganho?",o:["A frequência em que o módulo da malha aberta vale 1 (0 dB)","A frequência em que a fase é zero","A frequência da rede elétrica","O atraso do sistema"],e:"A margem de fase é medida nessa frequência.",n:2},
+{q:"O que é a margem de ganho?",o:["O fator pelo qual o ganho pode aumentar, na frequência em que a fase é −180°, antes de o sistema se tornar instável","O ganho em corrente contínua","O ganho do sensor","A banda passante do sistema"],e:"Valores usuais de projeto ficam acima de 6 dB.",n:2},
+{q:"O que é um controle feedforward (antecipativo)?",o:["Uma ação baseada na perturbação medida ou na referência, que antecipa a correção antes de o erro aparecer","O mesmo que um controle PID","Um controle que usa apenas a ação integral","Um controle que mede apenas a saída"],e:"Costuma ser combinado com a realimentação, que corrige o que o modelo não prevê.",n:2},
+{q:"Segundo o teorema de Nyquist-Shannon, qual deve ser a taxa de amostragem de um sinal com frequência máxima fmax?",o:["Maior que 2·fmax","Igual a fmax/2","Igual a fmax","Exatamente 10·fmax"],e:"Na prática, controle digital usa de 10 a 20 vezes a banda do sistema.",n:2},
+{q:"O que é o controle em cascata?",o:["Duas malhas aninhadas, em que a externa define a referência da interna, que é mais rápida","Duas malhas em paralelo, sem relação entre si","Controle sem realimentação","Controle apenas proporcional"],e:"É comum em controle de temperatura, em que a malha interna controla a vazão e a externa, a temperatura.",n:2},
+{q:"O que é o windup do termo integral?",o:["O acúmulo excessivo da integral quando o atuador satura, causando grande overshoot na recuperação","O ruído do sensor","A perda de ganho do controlador","O atraso de transporte"],e:"Resolve-se com técnicas de anti-windup, como limitar ou congelar a integral durante a saturação.",n:2},
+{q:"Como se escreve um sistema linear no espaço de estados?",o:["dx/dt = A·x + B·u e y = C·x + D·u","y = A·x","x = u","dx/dt = x²"],e:"A matriz A descreve a dinâmica, B a entrada, C a saída e D a transmissão direta.",n:3},
+{q:"O que significa um sistema ser controlável?",o:["É possível levar o estado de qualquer valor inicial a qualquer valor final em tempo finito por meio da entrada","Todos os estados podem ser medidos","O sistema é sempre estável","O sistema não tem erro estacionário"],e:"Pode ser verificado pelo posto da matriz de controlabilidade [B, AB, A²B, ...].",n:3},
+{q:"O que significa um sistema ser observável?",o:["O estado pode ser reconstruído a partir das saídas e entradas medidas","O sistema é controlável","Os polos são reais","O sistema não tem ruído"],e:"É a base para projetar observadores de estado.",n:3},
+{q:"O que o critério de Nyquist avalia?",o:["A estabilidade em malha fechada a partir do diagrama de Nyquist de malha aberta, contando envolvimentos do ponto −1","A temperatura do processo","O erro estacionário","A dureza do atuador"],e:"Funciona mesmo para sistemas com atraso, o que é uma vantagem sobre o lugar das raízes.",n:3},
+{q:"Qual é o efeito de um compensador de avanço de fase?",o:["Aumenta a margem de fase e a rapidez da resposta","Reduz principalmente o erro estacionário","Atrasa a resposta","Elimina todos os polos"],e:"Ele adiciona fase positiva em uma faixa de frequências, melhorando o amortecimento.",n:3},
+{q:"Qual é o efeito de um compensador de atraso de fase?",o:["Aumenta o ganho em baixas frequências, reduzindo o erro estacionário, sem alterar muito o transitório","Aumenta a banda passante","Elimina a ação integral","Reduz a margem de ganho a zero"],e:"É parecido com a ação integral de um PI.",n:3},
+{q:"O que faz o filtro de Kalman?",o:["Estima os estados de um sistema a partir de medições ruidosas, combinando modelo e sensores de forma ótima","Elimina polos","Controla sem modelo","Mede temperatura"],e:"É muito usado em navegação, como em GPS e sistemas inerciais.",n:3},
+{q:"O que é o controle LQR?",o:["Um controlador por realimentação de estados que minimiza um custo quadrático de estados e esforço de controle","Um controlador liga-desliga","Um controlador PID sintonizado por Ziegler-Nichols","Um controle sem modelo"],e:"Os pesos Q e R permitem ajustar o compromisso entre desempenho e energia de controle.",n:3},
+{q:"O que caracteriza um sistema de fase não mínima?",o:["Possui zeros no semiplano direito, o que causa uma resposta inicial no sentido contrário","Possui polos no semiplano direito","Tem ganho negativo","Não tem atraso"],e:"Um exemplo é a direção traseira de um veículo ao dar ré, ou o nível de um tambor de caldeira.",n:3},
+{q:"Qual é o overshoot de um sistema de segunda ordem padrão com ζ = 0,5?",o:["Cerca de 16%","Cerca de 5%","Cerca de 50%","Zero"],e:"Mp = e^(−π·ζ/√(1 − ζ²)) ≈ 0,163.",n:3},
+{q:"Qual é a estimativa do tempo de acomodação (critério de 2%) de um sistema de segunda ordem subamortecido?",o:["Cerca de 4/(ζ·ωn)","1/ωn","2π/ωn","ζ·ωn/4"],e:"A parte real dos polos, ζ·ωn, determina o decaimento da envoltória da oscilação.",n:3},
+{q:"Como se aproxima um atraso de transporte e^(−θs) para análise com funções racionais?",o:["Pela aproximação de Padé","Pela série de Fourier","Pelo lugar das raízes","Pelo método de Euler apenas"],e:"O atraso adiciona fase negativa sem alterar o módulo, o que reduz a margem de fase.",n:3},
+{q:"Qual método de discretização de controladores mapeia o eixo imaginário do plano s no círculo unitário do plano z?",o:["Transformação bilinear (Tustin)","Euler para frente","Euler para trás","Retentor de ordem zero (ZOH)"],e:"A transformação bilinear preserva a estabilidade, mas distorce a escala de frequências (warping).",n:3},
+{q:"O que é o controle preditivo baseado em modelo (MPC)?",o:["Resolve a cada passo um problema de otimização sobre um horizonte futuro, respeitando restrições, e aplica a primeira ação","Um PID simples com ganho fixo","Um controle liga-desliga","Um controle sem modelo do processo"],e:"É muito usado em processos químicos e cada vez mais em veículos e robôs, pela capacidade de lidar com restrições.",n:3}
+]
+};
+
+/* ---------- Utilidades ---------- */
+function $(id){return document.getElementById(id);}
+function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+function rad(d){return d*Math.PI/180;}
+function pt(r,a){return [(r*Math.sin(rad(a))).toFixed(2),(-r*Math.cos(rad(a))).toFixed(2)];}
+var reduced=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+function vibrate(p){try{if(navigator.vibrate)navigator.vibrate(p);}catch(e){}}
+function getBest(m){try{return parseInt(localStorage.getItem("torque_best_"+m)||"0",10)||0;}catch(e){return 0;}}
+function setBest(n,m){try{localStorage.setItem("torque_best_"+m,String(n));}catch(e){}}
+
+/* ---------- Roleta (engrenagem) ---------- */
+function gearPath(teeth,rRoot,rTip){
+  var d="",step=360/teeth;
+  for(var i=0;i<teeth;i++){
+    var a=i*step;
+    var p=[[rRoot,a-step*0.36],[rTip,a-step*0.2],[rTip,a+step*0.2],[rRoot,a+step*0.36]];
+    for(var j=0;j<4;j++){var q=pt(p[j][0],p[j][1]);d+=(i===0&&j===0?"M":"L")+q[0]+" "+q[1]+" ";}
+  }
+  return d+"Z";
+}
+function wheelSVG(){
+  var s='<svg viewBox="-150 -150 300 300" xmlns="http://www.w3.org/2000/svg">';
+  s+='<path d="'+gearPath(36,128,142)+'" fill="var(--gear)"/>';
+  s+='<circle r="124" fill="var(--gear-hi)"/>';
+  CATS.forEach(function(c,i){
+    var A=360/CATS.length,a0=i*A,a1=a0+A,p0=pt(116,a0),p1=pt(116,a1),tp=pt(78,a0+A/2);
+    s+='<g class="sector" data-id="'+c.id+'">';
+    s+='<path d="M0 0 L'+p0[0]+' '+p0[1]+' A116 116 0 0 1 '+p1[0]+' '+p1[1]+' Z" fill="'+c.cor+'" stroke="var(--gear)" stroke-width="3"/>';
+    s+='<text x="'+tp[0]+'" y="'+tp[1]+'" font-size="26" text-anchor="middle" dominant-baseline="central" transform="rotate('+(a0+A/2)+' '+tp[0]+' '+tp[1]+')">'+c.icone+'</text>';
+    s+='</g>';
+  });
+  s+='<circle r="24" fill="var(--accent)" stroke="var(--gear)" stroke-width="5"/><circle r="7" fill="var(--gear)"/>';
+  return s+'</svg>';
+}
+
+/* ---------- Estado ---------- */
+var state,timer,rot=0,busy=false,mode="medio";
+function newState(){
+  var m=MODES[mode];var o={mode:mode,maxLives:m.lives,lives:m.lives,score:0,streak:0,bestStreak:0,asked:0,correct:0,hints:m.hints,progress:{},earned:{},used:{},cur:null};
+  CATS.forEach(function(c){o.progress[c.id]=0;o.earned[c.id]=false;o.used[c.id]=[];});
+  return o;
+}
+function earnedCount(){return CATS.filter(function(c){return state.earned[c.id];}).length;}
+
+/* ---------- Telas ---------- */
+function show(id){["home","game","end"].forEach(function(s){$(s).hidden=(s!==id);});window.scrollTo(0,0);}
+function renderHud(){
+  var n="";for(var i=0;i<state.maxLives;i++)n+='<span class="nut'+(i<state.lives?'':' lost')+'"></span>';
+  $("nuts").innerHTML=n;
+  $("nuts").setAttribute("aria-label",state.lives+(state.lives===1?" chance restante":" chances restantes"));
+  $("score").textContent=state.score;
+  $("streak").textContent=state.streak;
+}
+function trayHTML(){
+  return CATS.map(function(c){
+    var p=state.progress[c.id],dots="";
+    for(var i=0;i<3;i++)dots+='<i class="'+(p>i||state.earned[c.id]?'on':'')+'"></i>';
+    return '<div class="chip'+(state.earned[c.id]?' earned':'')+'" style="--c:'+c.cor+'" title="'+c.nome+': '+(state.earned[c.id]?'peça conquistada ('+c.peca+')':p+' de 3')+'">'+
+      '<div class="ico" aria-hidden="true">'+c.icone+'</div><div class="dots" aria-hidden="true">'+dots+'</div>'+
+      '<span class="sr">'+c.nome+': '+(state.earned[c.id]?'peça conquistada':p+' de 3 acertos')+'</span></div>';
+  }).join("");
+}
+function renderTray(){$("tray").innerHTML=trayHTML();}
+function updateWheel(){
+  var gs=$("wheelRot").querySelectorAll(".sector");
+  for(var i=0;i<gs.length;i++){gs[i].classList.toggle("done",!!state.earned[gs[i].getAttribute("data-id")]);}
+}
+
+/* ---------- Fluxo do jogo ---------- */
+function startGame(){
+  TOTAL=MODES[mode].time;state=newState();busy=false;
+  show("game");renderHud();renderTray();updateWheel();
+  $("qPanel").hidden=true;$("spinPanel").hidden=false;$("spinBtn").disabled=false;
+  $("spinBtn").focus({preventScroll:true});
+}
+function spin(){
+  if(busy)return;busy=true;$("spinBtn").disabled=true;
+  var left=[];CATS.forEach(function(c,i){if(!state.earned[c.id])left.push(i);});
+  var idx=left[Math.floor(Math.random()*left.length)];
+  var A=360/CATS.length;var c=idx*A+A/2+(Math.random()*A*0.6-A*0.3);
+  var delta=(((-c-rot)%360)+360)%360;
+  rot=rot+360*5+delta;
+  var dur=reduced?600:4200;
+  var w=$("wheelRot");
+  w.style.transition="transform "+dur+"ms cubic-bezier(.12,.68,.12,1)";
+  w.style.transform="rotate("+rot+"deg)";
+  setTimeout(function(){busy=false;showQuestion(idx);},dur+300);
+}
+function pickQuestion(cat){
+  var pool=Q[cat.id],used=state.used[cat.id],lvl=MODES[state.mode].lvl;
+  function free(test){var r=[];pool.forEach(function(it,i){if(used.indexOf(i)<0&&test(it.n))r.push(i);});return r;}
+  var avail=free(function(n){return n===lvl;});
+  if(!avail.length)avail=free(function(n){return Math.abs(n-lvl)===1;});
+  if(!avail.length){state.used[cat.id]=[];used=state.used[cat.id];avail=free(function(n){return n===lvl;});}
+  var i=avail[Math.floor(Math.random()*avail.length)];
+  used.push(i);
+  var it=pool[i];
+  return {q:it.q,e:it.e,opts:shuffle(it.o.map(function(t,k){return {t:t,ok:k===0};})),done:false,hinted:false};
+}
+function showQuestion(idx){
+  var cat=CATS[idx];
+  var cur=pickQuestion(cat);cur.cat=cat;state.cur=cur;
+  $("spinPanel").hidden=true;$("qPanel").hidden=false;
+  var band=$("band");band.style.setProperty("--c",cat.cor);band.style.setProperty("--tc",cat.tc||"#fff");
+  band.innerHTML='<span class="name"><span aria-hidden="true">'+cat.icone+'</span>'+cat.nome+'</span><span class="prog">'+state.progress[cat.id]+'/3</span>';
+  $("qtext").textContent=cur.q;
+  var letters=["A","B","C","D"];
+  $("options").innerHTML=cur.opts.map(function(o,i){
+    return '<button type="button" class="opt" data-i="'+i+'"><span class="k">'+letters[i]+'</span><span class="t"></span><span class="mark" aria-hidden="true"></span></button>';
+  }).join("");
+  var bs=$("options").querySelectorAll(".opt");
+  for(var i=0;i<bs.length;i++)bs[i].querySelector(".t").textContent=cur.opts[i].t;
+  $("feedback").hidden=true;$("feedback").innerHTML="";
+  var hb=$("hintBtn");hb.disabled=state.hints<=0;hb.textContent="Eliminar 2 ("+state.hints+")";
+  $("live").textContent="Área sorteada: "+cat.nome+".";
+  startTimer();
+  window.scrollTo(0,0);
+}
+var TOTAL=30,tLeft=30;
+function startTimer(){
+  clearInterval(timer);tLeft=TOTAL;drawTimer();
+  timer=setInterval(function(){
+    tLeft=Math.max(0,tLeft-0.1);drawTimer();
+    if(tLeft<=0){clearInterval(timer);answer(-1);}
+  },100);
+}
+function drawTimer(){
+  $("timerBar").style.width=(tLeft/TOTAL*100)+"%";
+  $("timer").classList.toggle("low",tLeft<=8);
+  $("timeLeft").textContent=Math.ceil(tLeft)+" s";
+}
+function useHint(){
+  var cur=state.cur;
+  if(!cur||cur.done||cur.hinted||state.hints<=0)return;
+  cur.hinted=true;state.hints--;
+  var wrong=[];cur.opts.forEach(function(o,i){if(!o.ok)wrong.push(i);});
+  var bs=$("options").querySelectorAll(".opt");
+  shuffle(wrong).slice(0,2).forEach(function(i){bs[i].disabled=true;bs[i].classList.add("out");});
+  $("hintBtn").disabled=true;$("hintBtn").textContent="Eliminar 2 ("+state.hints+")";
+}
+function answer(i){
+  var cur=state.cur;
+  if(!cur||cur.done)return;
+  cur.done=true;clearInterval(timer);
+  var cat=cur.cat,ok=(i>=0&&cur.opts[i].ok);
+  state.asked++;
+  var gained=0,got=false;
+  if(ok){
+    state.correct++;state.streak++;
+    if(state.streak>state.bestStreak)state.bestStreak=state.streak;
+    gained=Math.round((100+Math.ceil(tLeft)*2+Math.min(state.streak-1,5)*10)*MODES[state.mode].mult);
+    state.score+=gained;
+    state.progress[cat.id]++;
+    if(state.progress[cat.id]>=3){state.earned[cat.id]=true;got=true;}
+    vibrate(40);
+  }else{
+    state.lives--;state.streak=0;vibrate([60,40,60]);
+  }
+  var bs=$("options").querySelectorAll(".opt");
+  for(var k=0;k<bs.length;k++){
+    bs[k].disabled=true;
+    var m=bs[k].querySelector(".mark");
+    if(cur.opts[k].ok){bs[k].classList.add("correct");m.textContent="✓";}
+    else if(k===i){bs[k].classList.add("wrong");m.textContent="✗";}
+  }
+  var over=earnedCount()===CATS.length||state.lives<=0;
+  var head=ok?'Correto! +'+gained+' pontos':(i<0?'Tempo esgotado':'Não foi dessa vez');
+  var html='';
+  if(got)html+='<div class="earned-banner"><span aria-hidden="true">'+cat.icone+'</span>Peça conquistada: '+cat.peca+'</div>';
+  html+='<h2 class="'+(ok?'ok':'bad')+'">'+head+'</h2><p></p>';
+  html+='<button type="button" class="btn block" id="nextBtn">'+(over?'Ver resultado':'Girar de novo')+'</button>';
+  var fb=$("feedback");fb.innerHTML=html;fb.querySelector("p").textContent=cur.e;fb.hidden=false;
+  $("hintBtn").disabled=true;
+  renderHud();renderTray();updateWheel();
+  $("live").textContent=head+". "+cur.e;
+  $("nextBtn").addEventListener("click",nextTurn);
+  $("nextBtn").focus({preventScroll:true});
+  fb.scrollIntoView({behavior:reduced?"auto":"smooth",block:"nearest"});
+}
+function nextTurn(){
+  if(earnedCount()===CATS.length)return endGame(true);
+  if(state.lives<=0)return endGame(false);
+  state.cur=null;
+  $("qPanel").hidden=true;$("spinPanel").hidden=false;$("spinBtn").disabled=false;
+  window.scrollTo(0,0);
+  $("spinBtn").focus({preventScroll:true});
+}
+function endGame(win){
+  var best=getBest(state.mode),isNew=state.score>best&&state.score>0;
+  if(isNew){setBest(state.score,state.mode);best=state.score;}
+  show("end");
+  $("newrec").hidden=!isNew;
+  var n=earnedCount();
+  $("endTitle").textContent=win?"Diploma de engenharia mecânica":"As porcas acabaram";
+  $("endLead").textContent=win
+    ?"Você montou as "+CATS.length+" peças e se formou. Sobraram "+state.lives+(state.lives===1?" porca.":" porcas.")
+    :"Você montou "+n+" de "+CATS.length+" peças. Revise as áreas que faltaram e tente de novo.";
+  $("endLead").textContent+=" Nível "+MODES[state.mode].nome+".";
+  $("eScore").textContent=state.score;
+  $("eAcc").textContent=(state.asked?Math.round(state.correct/state.asked*100):0)+"%";
+  $("eStreak").textContent=state.bestStreak;
+  $("endTray").innerHTML=trayHTML();
+  $("againBtn").focus({preventScroll:true});
+}
+function renderHomeBest(){
+  var b=getBest(mode);
+  $("bestHome").hidden=!b;$("bestHomeN").textContent=b;$("bestHomeM").textContent=MODES[mode].nome;
+}
+function goHome(){
+  show("home");
+  renderHomeBest();
+}
+
+/* ---------- Eventos ---------- */
+$("homeWheel").innerHTML=wheelSVG();
+$("wheelRot").innerHTML=wheelSVG();
+$("playBtn").addEventListener("click",startGame);
+$("againBtn").addEventListener("click",startGame);
+$("homeBtn").addEventListener("click",goHome);
+$("spinBtn").addEventListener("click",spin);
+$("hintBtn").addEventListener("click",useHint);
+$("options").addEventListener("click",function(e){
+  var b=e.target.closest(".opt");
+  if(b&&!b.disabled)answer(parseInt(b.getAttribute("data-i"),10));
+});
+document.addEventListener("keydown",function(e){
+  if(e.ctrlKey||e.metaKey||e.altKey)return;
+  if($("qPanel").hidden||!state||!state.cur||state.cur.done)return;
+  var map={"1":0,"2":1,"3":2,"4":3,"a":0,"b":1,"c":2,"d":3};
+  var k=map[e.key.toLowerCase()];
+  if(k===undefined)return;
+  var bs=$("options").querySelectorAll(".opt");
+  if(bs[k]&&!bs[k].disabled)answer(k);
+});
+var radios=document.querySelectorAll('input[name="mode"]');
+for(var ri=0;ri<radios.length;ri++){radios[ri].addEventListener("change",function(e){mode=e.target.value;renderHomeBest();});}
+goHome();
+})();
+</script>
+<script>
+if("serviceWorker" in navigator&&location.protocol.indexOf("http")===0){
+  window.addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){});});
+}
+</script>
+</body>
+</html>
