@@ -1,4 +1,4 @@
-var CACHE="torque-v1";
+var CACHE="torque-quiz-v2";
 var ARQUIVOS=["./","./index.html","./manifest.webmanifest","./icon-192.png","./icon-512.png","./apple-touch-icon.png"];
 self.addEventListener("install",function(e){
   e.waitUntil(caches.open(CACHE).then(function(c){return c.addAll(ARQUIVOS);}).then(function(){return self.skipWaiting();}));
@@ -13,8 +13,12 @@ self.addEventListener("fetch",function(e){
   if(req.method!=="GET")return;
   var url=new URL(req.url);
   var fonte=url.hostname==="fonts.googleapis.com"||url.hostname==="fonts.gstatic.com";
-  if(url.origin===location.origin){
-    e.respondWith(caches.match(req).then(function(r){
+  if(url.origin===location.origin&&req.mode==="navigate"){
+    e.respondWith(fetch(req).then(function(resp){
+      var cp=resp.clone();caches.open(CACHE).then(function(c){c.put("./index.html",cp);});return resp;
+    }).catch(function(){return caches.match("./index.html");}));
+  }else if(url.origin===location.origin){
+    e.respondWith(caches.match(req,{ignoreSearch:true}).then(function(r){
       return r||fetch(req).then(function(resp){
         var cp=resp.clone();caches.open(CACHE).then(function(c){c.put(req,cp);});return resp;
       }).catch(function(){return caches.match("./index.html");});
